@@ -79,7 +79,7 @@ namespace BusinessLogic.LibraryModel
         /// </value>
         [Required(ErrorMessage = "Book must have the year of publishing!")]
         [Year(ErrorMessage = "The year of publishing must be in range "
-                           + "from -500 year B.C. until this year!")]
+                           + "from 500 year until this year!")]
         public int Year
         {
             get;
