@@ -81,24 +81,6 @@ namespace BusinessLogic.LibraryService
         }
 
         /// <summary>
-        /// Creates the book
-        /// </summary>
-        /// <param name="bookName">Name of the book</param>
-        /// <param name="year">The year of publishing the book</param>
-        /// <param name="authorId">The book`s author identifier</param>
-        /// <returns>The instance of type Book</returns>
-        /// <exception cref="ArgumentException">Can`t create book! Invalid author id!</exception>
-        public Book CreateBook(string bookName, int year, uint? authorId = null)
-        {
-            if (this.authors.Where(author => author.Id == authorId).Any() || authorId == null)
-            {
-                return new Book(bookName, year, authorId);
-            }
-
-            throw new ArgumentException("Can`t create book! Invalid author id!");
-        }
-
-        /// <summary>
         /// Adds the book to the list of books
         /// </summary>
         /// <param name="book">The book</param>
