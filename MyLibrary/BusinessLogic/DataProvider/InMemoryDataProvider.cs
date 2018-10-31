@@ -11,7 +11,7 @@ namespace BusinessLogic.DataProvider
     /// Data Provider for Library Service that provides data in a list
     /// </summary>
     /// <seealso cref="BusinessLogic.DataProvider.IDataProvider" />
-    public class ListsDataProvider : IDataProvider
+    public class InMemoryDataProvider : IDataProvider
     {
         /// <summary>
         /// The books
@@ -24,10 +24,10 @@ namespace BusinessLogic.DataProvider
         private List<Author> authors;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListsDataProvider"/> class.
+        /// Initializes a new instance of the <see cref="InMemoryDataProvider"/> class.
         /// Fill books and authors by default values
         /// </summary>
-        public ListsDataProvider()
+        public InMemoryDataProvider()
         {
             this.books = new List<Book>()
             {

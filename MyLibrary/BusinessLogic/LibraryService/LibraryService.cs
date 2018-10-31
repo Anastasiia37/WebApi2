@@ -75,9 +75,9 @@ namespace BusinessLogic.LibraryService
                 return null;
             }
 
-            uint idOfDeleteBook = bookForDelete.Id;
+            uint DeletedBookId = bookForDelete.Id;
             this.books.Remove(bookForDelete);
-            return idOfDeleteBook;
+            return DeletedBookId;
         }
 
         /// <summary>
@@ -88,13 +88,13 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">Don`t have author with such id!</exception>
         public uint AddBook(Book book)
         {
-            if (!this.authors.Where(author => author.Id == book.AuthorId).Any()
+            if (!this.authors.Any(author => author.Id == book.AuthorId)
                 && book.AuthorId != null)
             {
                 throw new ArgumentException("Don`t have author with such id!");
             }
 
-            if (this.books.Where(someBook => someBook.Id == book.Id).Any())
+            if (this.books.Any(someBook => someBook.Id == book.Id))
             {
                 throw new ArgumentException("The book with such id already exists!");
             }
@@ -124,7 +124,7 @@ namespace BusinessLogic.LibraryService
 
             bookForUpdate.Name = newBookName;
             bookForUpdate.Year = newBookYear;
-            if (!this.authors.Where(author => author.Id == newAuthorId).Any()
+            if (!this.authors.Any(author => author.Id == newAuthorId)
                 && newAuthorId != null)
             {
                 throw new ArgumentException("Can`t update book! Don`t have author with such id!");
@@ -165,7 +165,7 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">The author with such id already exists!</exception>
         public uint AddAuthor(Author author)
         {
-            if (this.authors.Where(someAuthor => someAuthor.Id == author.Id).Any())
+            if (this.authors.Any(someAuthor => someAuthor.Id == author.Id))
             {
                 throw new ArgumentException("The author with such id already exists!");
             }
