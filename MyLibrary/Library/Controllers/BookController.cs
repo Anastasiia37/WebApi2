@@ -112,7 +112,7 @@ namespace Library.Controllers
         /// HTTP status code Ok() with updated book`s id
         /// or HTTP status code NotFound() if there is no books with specified id
         /// or HTTP status code BadRequest if there is no authors with specified new id</returns>
-        [HttpPut("{id}")]
+        [HttpPut("{bookId}/{newBookName}/{newBookYear}/{newAuthorId}")]
         public IActionResult UpdateBook(uint bookId, string newBookName, int newBookYear,
                                uint? newAuthorId = null)
         {
