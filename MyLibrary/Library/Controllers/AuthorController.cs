@@ -109,25 +109,17 @@ namespace Library.Controllers
         /// <returns>
         /// HTTP status code Ok() with updated author`s id
         /// or HTTP status code NotFound() if there is no authors with specified id
-        /// or HTTP status code BadRequest() if trying to update author`s id
         /// </returns>
         [HttpPut("{id}")]
         public IActionResult UpdateAuthor(uint id, [FromBody]Author author)
         {
-            try
+            uint? updatedAuthorId = this.libraryService.UpdateAuthor(id, author);
+            if (updatedAuthorId == null)
             {
-                uint? updatedAuthorId = this.libraryService.UpdateAuthor(id, author);
-                if (updatedAuthorId == null)
-                {
-                    return NotFound("No authors with such id!");
-                }
+                return NotFound("No authors with such id!");
+            }
 
-                return Ok(updatedAuthorId);
-            }
-            catch (ArgumentException exception)
-            {
-                return BadRequest(exception.Message);
-            }
+            return Ok(updatedAuthorId);
         }
 
         // DELETE: api/author/5

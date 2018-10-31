@@ -18,7 +18,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The books
         /// </value>
-        List<Book> Books
+        List<Book> GetBooks
         {
             get;
         }
@@ -29,7 +29,40 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The authors
         /// </value>
-        List<Author> Authors
+        List<Author> GetAuthors
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the genres
+        /// </summary>
+        /// <value>
+        /// The genres
+        /// </value>
+        List<Genre> GetGenres
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the pair of book and its genre
+        /// </summary>
+        /// <value>
+        /// The pair of book and its genre
+        /// </value>
+        List<BookGenre> GetBookGenre
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the pair of book and its author
+        /// </summary>
+        /// <value>
+        /// The pair of book and its author
+        /// </value>
+        List<BookAuthor> GetBookAuthor
         {
             get;
         }

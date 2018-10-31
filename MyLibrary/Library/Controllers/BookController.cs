@@ -78,7 +78,7 @@ namespace Library.Controllers
         /// <param name="book">The book for adding</param>
         /// <returns>
         /// HTTP status code Created() with added book`s id
-        /// or HTTP status code BadRequest() with error message
+        /// or HTTP status code BadRequest() if the book with such id already exists
         /// </returns>
         [HttpPost]
         public IActionResult AddNewBook([FromBody]Book book)
@@ -106,64 +106,22 @@ namespace Library.Controllers
         /// </summary>
         /// <param name="bookId">The book identifier</param>
         /// <param name="newBookName">New name of the book</param>
-        /// <param name="newBookYear">The new publising year of the book</param>
-        /// <param name="newAuthorId">The new author identifier of the book</param>
+        /// <param name="newBookYear">The new publishing year of the book</param>
         /// <returns>
         /// HTTP status code Ok() with updated book`s id
-        /// or HTTP status code NotFound() if there is no books with specified id
-        /// or HTTP status code BadRequest if there is no authors with specified new id</returns>
-        [HttpPut("{id}")]
-        public IActionResult UpdateBook(uint bookId, string newBookName, int newBookYear,
-                               uint? newAuthorId = null)
+        /// or HTTP status code NotFound() if there is no books with specified id</returns>
+        [HttpPut("{bookId}")]
+        public IActionResult UpdateBook(uint bookId, string newBookName, int newBookYear)
         {
-            try
+            uint? updatedBookId = this.libraryService.UpdateBook(bookId,
+                newBookName, newBookYear);
+            if (updatedBookId == null)
             {
-                uint? updatedBookId = this.libraryService.UpdateBook(bookId,
-                    newBookName, newBookYear, newAuthorId);
-                if (updatedBookId == null)
-                {
-                    return NotFound("No books with such id!");
-                }
+                return NotFound("No books with such id!");
+            }
 
-                return Ok(bookId);
-            }
-            catch (ArgumentException exception)
-            {
-                return BadRequest(exception.Message);
-            }
+            return Ok(bookId);
         }
-
-        // PUT: api/book/5
-        /// <summary>
-        /// Updates the book
-        /// </summary>
-        /// <param name="bookId">The book identifier</param>
-        /// <param name="newBookName">New name of the book</param>
-        /// <param name="newBookYear">The new publising year of the book</param>
-        /// <param name="newAuthorId">The new author identifier of the book</param>
-        /// <returns>
-        /// HTTP status code Ok() with updated book`s id
-        /// or HTTP status code NotFound() if there is no books with specified id
-        /// or HTTP status code BadRequest if there is no authors with specified new id</returns>
-       /* [HttpPut("{id}")]
-        public IActionResult UpdateBook(uint bookId, [FromBody]string newBookName, [FromBody]int newBookYear,
-                               [FromBody]uint? newAuthorId = null)
-        {
-            try
-            {
-                uint? updatedBookId = this.libraryService.UpdateBook(bookId,
-                    newBookName, newBookYear, newAuthorId);
-                if (updatedBookId == null)
-                {
-                    return NotFound("No books with such id!");
-                }
-                return Ok(bookId);
-            }
-            catch (ArgumentException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-        }*/
 
         // DELETE: api/book/5
         /// <summary>

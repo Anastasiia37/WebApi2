@@ -39,10 +39,8 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="bookName">Name of the book</param>
         /// <param name="year">The year of publishing the book</param>
-        /// <param name="authorId">The book`s author identifier</param>
         /// <returns>The instance of type Book</returns>
-        /// <exception cref="ArgumentException">Can`t create book! Invalid author id!</exception>
-        Book CreateBook(string bookName, int year, uint? authorId = null);
+        Book CreateBook(string bookName, int year);
 
         /// <summary>
         /// Adds the book to the list of books
@@ -57,10 +55,9 @@ namespace BusinessLogic.LibraryService
         /// <param name="bookId">The identifier of the book for updating</param>
         /// <param name="newBookName">New name of the book</param>
         /// <param name="newBookYear">The new publishing year of the book</param>
-        /// <param name="newAuthorId">The new author identifier of the book</param>
         /// <returns>
         /// The id of the updated book or null if there isn`t any book with specified id
         /// </returns>
-        uint? UpdateBook(uint bookId, string newBookName, int newBookYear, uint? newAuthorId = null);
+        uint? UpdateBook(uint bookId, string newBookName, int newBookYear);
     }
 }

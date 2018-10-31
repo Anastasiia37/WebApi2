@@ -27,13 +27,31 @@ namespace BusinessLogic.LibraryService
         private List<Author> authors;
 
         /// <summary>
+        /// The genres
+        /// </summary>
+        private List<Genre> genres;
+
+        /// <summary>
+        /// The books with genres
+        /// </summary>
+        private List<BookGenre> bookGenre;
+
+        /// <summary>
+        /// The books with authors
+        /// </summary>
+        private List<BookAuthor> bookAuthor;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LibraryService"/> class
         /// </summary>
         /// <param name="dataProvider">The data provider</param>
         public LibraryService(IDataProvider dataProvider)
         {
-            this.books = dataProvider.Books;
-            this.authors = dataProvider.Authors;
+            this.books = dataProvider.GetBooks;
+            this.authors = dataProvider.GetAuthors;
+            this.genres = dataProvider.GetGenres;
+            this.bookAuthor = dataProvider.GetBookAuthor;
+            this.bookGenre = dataProvider.GetBookGenre;
         }
 
         #region BookServices
@@ -75,9 +93,9 @@ namespace BusinessLogic.LibraryService
                 return null;
             }
 
-            uint idOfDeleteBook = bookForDelete.Id;
+            uint idOfDeletedBook = bookForDelete.Id;
             this.books.Remove(bookForDelete);
-            return idOfDeleteBook;
+            return idOfDeletedBook;
         }
 
         /// <summary>
@@ -85,17 +103,10 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="bookName">Name of the book</param>
         /// <param name="year">The year of publishing the book</param>
-        /// <param name="authorId">The book`s author identifier</param>
         /// <returns>The instance of type Book</returns>
-        /// <exception cref="ArgumentException">Can`t create book! Invalid author id!</exception>
-        public Book CreateBook(string bookName, int year, uint? authorId = null)
+        public Book CreateBook(string bookName, int year)
         {
-            if (this.authors.Where(author => author.Id == authorId).Any() || authorId == null)
-            {
-                return new Book(bookName, year, authorId);
-            }
-
-            throw new ArgumentException("Can`t create book! Invalid author id!");
+            return new Book(bookName, year);
         }
 
         /// <summary>
@@ -103,15 +114,9 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="book">The book</param>
         /// <returns>The id of the added book</returns>
-        /// <exception cref="ArgumentException">Don`t have author with such id!</exception>
+        /// <exception cref="ArgumentException">The book with such id already exists!</exception>
         public uint AddBook(Book book)
         {
-            if (!this.authors.Where(author => author.Id == book.AuthorId).Any()
-                && book.AuthorId != null)
-            {
-                throw new ArgumentException("Don`t have author with such id!");
-            }
-
             if (this.books.Where(someBook => someBook.Id == book.Id).Any())
             {
                 throw new ArgumentException("The book with such id already exists!");
@@ -127,12 +132,10 @@ namespace BusinessLogic.LibraryService
         /// <param name="bookId">The identifier of the book for updating</param>
         /// <param name="newBookName">New name of the book</param>
         /// <param name="newBookYear">The new publishing year of the book</param>
-        /// <param name="newAuthorId">The new author identifier of the book</param>
         /// <returns>
         /// The id of the updated book or null if there isn`t any book with specified id
         /// </returns>
-        /// <exception cref="ArgumentException">Don`t have author with such id!</exception>
-        public uint? UpdateBook(uint bookId, string newBookName, int newBookYear, uint? newAuthorId = null)
+        public uint? UpdateBook(uint bookId, string newBookName, int newBookYear)
         {
             Book bookForUpdate = this.books.Find(book => book.Id == bookId);
             if (bookForUpdate == null)
@@ -142,13 +145,6 @@ namespace BusinessLogic.LibraryService
 
             bookForUpdate.Name = newBookName;
             bookForUpdate.Year = newBookYear;
-            if (!this.authors.Where(author => author.Id == newAuthorId).Any()
-                && newAuthorId != null)
-            {
-                throw new ArgumentException("Can`t update book! Don`t have author with such id!");
-            }
-
-            bookForUpdate.AuthorId = newAuthorId;
             return bookId;
         }
 
@@ -200,7 +196,6 @@ namespace BusinessLogic.LibraryService
         /// <returns>
         /// The id of updated author or null if there isn`t author with specified id
         /// </returns>
-        /// <exception cref="ArgumentException">You can`t update author`s id!</exception>
         public uint? UpdateAuthor(uint authorId, Author author)
         {
             Author authorForUpdate = this.authors.Find(someAuthor => someAuthor.Id == authorId);
@@ -218,7 +213,7 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="authorId">The author identifier</param>
         /// <returns>
-        /// Number of book deletings with such author
+        /// Number of deleted books with such author
         /// or null if there isn`t author with specified id
         /// </returns>
         public int? RemoveAuthor(uint authorId)
@@ -227,7 +222,12 @@ namespace BusinessLogic.LibraryService
             if (authorForDelete != null)
             {
                 int numberOfBookDeletions = 0;
-                numberOfBookDeletions = this.books.RemoveAll(book => book.AuthorId == authorId);
+                this.genres.Where(someGenre => someGenre.Id == genre.Id).Any()
+
+
+                //????????????????????
+                // numberOfBookDeletions = this.books.RemoveAll(book => book.AuthorId == authorId);
+
                 this.authors.Remove(authorForDelete);
 
                 return numberOfBookDeletions;
@@ -235,7 +235,91 @@ namespace BusinessLogic.LibraryService
 
             return null;
         }
-
         #endregion AuthorServices
+
+        #region GenreServices
+
+        /// <summary>
+        /// Gets all genres
+        /// </summary>
+        /// <returns>The list of genres in Library</returns>
+        public IEnumerable<Genre> GetAllGenres()
+        {
+            return this.genres;
+        }
+
+        /// <summary>
+        /// Gets the genre by identifier
+        /// </summary>
+        /// <param name="id">The genre identifier</param>
+        /// <returns>The found genre or null if there is no such genre in library</returns>
+        public Genre GetGenreById(uint id)
+        {
+            return this.genres.Find(genre => genre.Id == id);
+        }
+
+        /// <summary>
+        /// Adds the genre to Library
+        /// </summary>
+        /// <param name="genre">The genre for adding</param>
+        /// <returns>The id of added genre</returns>
+        /// <exception cref="System.ArgumentException">The genre with such id already exists!</exception>
+        public uint AddGenre(Genre genre)
+        {
+            if (this.genres.Where(someGenre => someGenre.Id == genre.Id).Any())
+            {
+                throw new ArgumentException("The genre with such id already exists!");
+            }
+
+            this.genres.Add(genre);
+            return genre.Id;
+        }
+
+        /// <summary>
+        /// Updates the genre
+        /// </summary>
+        /// <param name="genreId">The genre identifier</param>
+        /// <param name="genre">The new genre</param>
+        /// <returns>The id of updated genre or null if there is no genre with specified id</returns>
+        public uint? UpdateGenre(uint genreId, Genre genre)
+        {
+            Genre genreForUpdate = this.genres.Find(someGenre => someGenre.Id == genreId);
+            if (genreForUpdate == null)
+            {
+                return null;
+            }
+
+            genreForUpdate.Name = genre.Name;
+            return genreForUpdate.Id;
+        }
+
+        /// <summary>
+        /// Removes the genre
+        /// </summary>
+        /// <param name="id">The identifier of genre for removing</param>
+        /// <returns>
+        /// The id of deleted genre or null if there are no such genre
+        /// </returns>
+        /// <exception cref="System.ArgumentException">
+        /// Can`t remove this genre because books with this genre exist!
+        /// </exception>
+        public uint? RemoveGenre(uint id)
+        {
+            Genre genreForDelete = this.genres.Find(genre => genre.Id == id);
+            if (genreForDelete != null)
+            {
+                if (this.bookGenre.Where(someBookGenre => someBookGenre.GenreId == id).Any())
+                {
+                    throw new ArgumentException("Can`t remove this genre because books with this genre exist!");
+                }
+
+                this.genres.Remove(genreForDelete);
+
+                return genreForDelete.Id;
+            }
+
+            return null;
+        }
+        #endregion
     }
 }

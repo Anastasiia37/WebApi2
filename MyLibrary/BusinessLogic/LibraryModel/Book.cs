@@ -21,12 +21,10 @@ namespace BusinessLogic.LibraryModel
         /// </summary>
         /// <param name="name">The name of the book</param>
         /// <param name="year">The publishing year of the book</param>
-        /// <param name="authorId">The author identifier of the book</param>
-        public Book(string name, int year, uint? authorId = null)
+        public Book(string name, int year)
         {
             this.Name = name;
             this.Year = year;
-            this.AuthorId = authorId;
             this.Id = ++lastId;
         }
 
@@ -59,27 +57,13 @@ namespace BusinessLogic.LibraryModel
         }
 
         /// <summary>
-        /// Gets or sets the author identifier
-        /// </summary>
-        /// <value>
-        /// The author identifier
-        /// </value>
-        [Range(1, uint.MaxValue)]
-        public uint? AuthorId
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the publishing year
         /// </summary>
         /// <value>
         /// The publishing year
         /// </value>
         [Required(ErrorMessage = "Book must have the year of publishing!")]
-        [Year(ErrorMessage = "The year of publishing must be in range "
-                           + "from -500 year B.C. until this year!")]
+        [Year]
         public int Year
         {
             get;

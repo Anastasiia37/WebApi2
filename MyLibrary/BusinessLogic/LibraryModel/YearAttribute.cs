@@ -14,6 +14,11 @@ namespace BusinessLogic.LibraryModel
     public class YearAttribute : ValidationAttribute
     {
         /// <summary>
+        /// The minimum year of book
+        /// </summary>
+        public const int MINIMUM_YEAR = 500;
+
+        /// <summary>
         /// Returns true if property Year in Book class is valid
         /// </summary>
         /// <param name="value">The value of the object to validate</param>
@@ -22,7 +27,6 @@ namespace BusinessLogic.LibraryModel
         /// </returns>
         public override bool IsValid(object value)
         {
-            const int MINIMUM_YEAR = 500;
             if (value != null)
             {
                 int year = Convert.ToInt32(value);
@@ -32,6 +36,8 @@ namespace BusinessLogic.LibraryModel
                 }
             }
 
+            this.ErrorMessage = $"The year of publishing must be in range from {MINIMUM_YEAR}"
+                + "until this year!";
             return false;
         }
     }
