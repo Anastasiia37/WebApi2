@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BusinessLogic.LibraryModel
 {
-    public class BookAuthor
+    public class BookAuthorPair
     {
         /// <summary>
         /// The value of last identifier
@@ -14,11 +14,11 @@ namespace BusinessLogic.LibraryModel
         private static uint lastId = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookAuthor" /> class
+        /// Initializes a new instance of the <see cref="BookAuthorPair" /> class
         /// </summary>
         /// <param name="bookId">The book identifier</param>
         /// <param name="authorId">The author identifier</param>
-        public BookAuthor(uint bookId, uint authorId)
+        public BookAuthorPair(uint bookId, uint authorId)
         {
             this.BookId = bookId;
             this.AuthorId = authorId;

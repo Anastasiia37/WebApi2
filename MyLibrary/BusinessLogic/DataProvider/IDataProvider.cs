@@ -51,7 +51,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its genre
         /// </value>
-        List<BookGenre> GetBookGenre
+        List<BookGenrePair> GetPairBookGenre
         {
             get;
         }
@@ -62,7 +62,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its author
         /// </value>
-        List<BookAuthor> GetBookAuthor
+        List<BookAuthorPair> GetPairBookAuthor
         {
             get;
         }

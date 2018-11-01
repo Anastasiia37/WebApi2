@@ -35,7 +35,7 @@ namespace BusinessLogicTests
         public static void TestInitialize(TestContext testContext)
         {
             // Arrange
-            dataProvider = new ListsDataProvider();
+            dataProvider = new InMemoryDataProvider();
             libraryService = new LibraryService(dataProvider);
         }
 

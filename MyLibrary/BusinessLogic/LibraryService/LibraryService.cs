@@ -34,12 +34,12 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// The books with genres
         /// </summary>
-        private List<BookGenre> bookGenre;
+        private List<BookGenrePair> pairsBookGenre;
 
         /// <summary>
         /// The books with authors
         /// </summary>
-        private List<BookAuthor> bookAuthor;
+        private List<BookAuthorPair> pairsBookAuthor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LibraryService"/> class
@@ -50,8 +50,8 @@ namespace BusinessLogic.LibraryService
             this.books = dataProvider.GetBooks;
             this.authors = dataProvider.GetAuthors;
             this.genres = dataProvider.GetGenres;
-            this.bookAuthor = dataProvider.GetBookAuthor;
-            this.bookGenre = dataProvider.GetBookGenre;
+            this.pairsBookAuthor = dataProvider.GetPairBookAuthor;
+            this.pairsBookGenre = dataProvider.GetPairBookGenre;
         }
 
         #region BookServices
@@ -79,7 +79,8 @@ namespace BusinessLogic.LibraryService
         }
 
         /// <summary>
-        /// Removes the book from the library
+        /// Removes the book from the library,
+        /// and all records in pairsBookAuthor and pairsBookGenre with such book id
         /// </summary>
         /// <param name="id">The identifier of the book</param>
         /// <returns>
@@ -87,12 +88,14 @@ namespace BusinessLogic.LibraryService
         /// </returns>
         public uint? RemoveBook(uint id)
         {
-            Book bookForDelete = this.books.Find(book => book.Id == id);
+            Book bookForDelete = this.books.FirstOrDefault(book => book.Id == id);
             if (bookForDelete == null)
             {
                 return null;
             }
 
+            this.pairsBookAuthor.RemoveAll(pair => pair.BookId == id);
+            this.pairsBookGenre.RemoveAll(pair => pair.BookId == id);
             uint idOfDeletedBook = bookForDelete.Id;
             this.books.Remove(bookForDelete);
             return idOfDeletedBook;
@@ -117,7 +120,7 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">The book with such id already exists!</exception>
         public uint AddBook(Book book)
         {
-            if (this.books.Where(someBook => someBook.Id == book.Id).Any())
+            if (this.books.Any(someBook => someBook.Id == book.Id))
             {
                 throw new ArgumentException("The book with such id already exists!");
             }
@@ -179,7 +182,7 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">The author with such id already exists!</exception>
         public uint AddAuthor(Author author)
         {
-            if (this.authors.Where(someAuthor => someAuthor.Id == author.Id).Any())
+            if (this.authors.Any(someAuthor => someAuthor.Id == author.Id))
             {
                 throw new ArgumentException("The author with such id already exists!");
             }
@@ -209,28 +212,21 @@ namespace BusinessLogic.LibraryService
         }
 
         /// <summary>
-        /// Removes the author from the library
+        /// Removes the author if there are no books of such author in the library
         /// </summary>
         /// <param name="authorId">The author identifier</param>
         /// <returns>
         /// Number of deleted books with such author
         /// or null if there isn`t author with specified id
         /// </returns>
-        public int? RemoveAuthor(uint authorId)
+        public uint? RemoveAuthor(uint authorId)
         {
-            Author authorForDelete = this.authors.Find(author => author.Id == authorId);
+            Author authorForDelete = this.authors.FirstOrDefault(author => author.Id == authorId);
             if (authorForDelete != null)
             {
-                int numberOfBookDeletions = 0;
-                this.genres.Where(someGenre => someGenre.Id == genre.Id).Any()
-
-
-                //????????????????????
-                // numberOfBookDeletions = this.books.RemoveAll(book => book.AuthorId == authorId);
-
+                this.pairsBookAuthor.RemoveAll(pair => pair.AuthorId == authorId);
                 this.authors.Remove(authorForDelete);
-
-                return numberOfBookDeletions;
+                return authorId;
             }
 
             return null;
@@ -266,7 +262,7 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="System.ArgumentException">The genre with such id already exists!</exception>
         public uint AddGenre(Genre genre)
         {
-            if (this.genres.Where(someGenre => someGenre.Id == genre.Id).Any())
+            if (this.genres.Any(someGenre => someGenre.Id == genre.Id))
             {
                 throw new ArgumentException("The genre with such id already exists!");
             }
@@ -308,7 +304,7 @@ namespace BusinessLogic.LibraryService
             Genre genreForDelete = this.genres.Find(genre => genre.Id == id);
             if (genreForDelete != null)
             {
-                if (this.bookGenre.Where(someBookGenre => someBookGenre.GenreId == id).Any())
+                if (this.pairsBookGenre.Any(someBookGenre => someBookGenre.GenreId == id))
                 {
                     throw new ArgumentException("Can`t remove this genre because books with this genre exist!");
                 }
@@ -319,6 +315,111 @@ namespace BusinessLogic.LibraryService
             }
 
             return null;
+        }
+        #endregion
+
+        #region BookAuthorPairService
+        /// <summary>
+        /// Gets all book-author pairs from the library
+        /// </summary>
+        /// <returns>The list of all book-author pairs</returns>
+        public IEnumerable<BookAuthorPair> GetAllBookAuthorPair()
+        {
+            return this.pairsBookAuthor;
+        }
+
+        /// <summary>
+        /// Adds the author to book
+        /// </summary>
+        /// <param name="authorId">The author identifier</param>
+        /// <param name="bookId">The book identifier</param>
+        /// <returns>
+        /// The id of new record in pairsBookAuthor
+        /// </returns>
+        /// <exception cref="ArgumentException">Can`t find author with such id!
+        /// or
+        /// Can`t find book with such id!</exception>
+        public uint AddAuthorToBook(uint authorId, uint bookId)
+        {
+            if (!this.authors.Any(someAuthor => someAuthor.Id == authorId))
+            {
+                throw new ArgumentException("Can`t find author with such id!");
+            }
+
+            if (!this.books.Any(someBook => someBook.Id == bookId))
+            {
+                throw new ArgumentException("Can`t find book with such id!");
+            }
+
+            BookAuthorPair pairForAdding = new BookAuthorPair(bookId, authorId);
+            this.pairsBookAuthor.Add(pairForAdding);
+            return pairForAdding.Id;
+        }
+
+        /// <summary>
+        /// Removes the author from book
+        /// </summary>
+        /// <param name="authorId">The author identifier</param>
+        /// <param name="bookId">The book identifier</param>
+        /// <returns>
+        /// The id of removed record in Book-Author pair
+        /// or null if there are any pair of specified book and author
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Can`t find author with such id!
+        /// or
+        /// Can`t find book with such id!
+        /// </exception>
+        public uint? RemoveAuthorFromBook(uint authorId, uint bookId)
+        {
+            if (!this.authors.Any(someAuthor => someAuthor.Id == authorId))
+            {
+                throw new ArgumentException("Can`t find author with such id!");
+            }
+
+            if (!this.books.Any(someBook => someBook.Id == bookId))
+            {
+                throw new ArgumentException("Can`t find book with such id!");
+            }
+
+            BookAuthorPair pairForRemoving = this.pairsBookAuthor.FirstOrDefault(
+                pairBookAuthor => pairBookAuthor.AuthorId == authorId
+                && pairBookAuthor.BookId == bookId);
+            if (pairForRemoving == null)
+            {
+                return null;
+            }
+
+            uint removedPairId = pairForRemoving.Id;
+            this.pairsBookAuthor.Remove(pairForRemoving);
+            return removedPairId;
+        }
+
+        /// <summary>
+        /// Get all books by specified author
+        /// </summary>
+        /// <param name="authorId">The author identifier</param>
+        /// <returns>
+        /// Enumeration of books
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Can`t find author with such id!
+        /// </exception>
+        public IEnumerable<Book> GetBooksByAuthor(uint authorId)
+        {
+            if (!this.authors.Any(someAuthor => someAuthor.Id == authorId))
+            {
+                throw new ArgumentException("Can`t find author with such id!");
+            }
+
+            var booksId = from entry in pairsBookAuthor
+                                        where entry.AuthorId == authorId
+                                        select GetBookById(entry.BookId);
+            return booksId;
+            /*foreach (uint bookId in booksId)
+            {
+                yield return GetBookById(bookId);
+            }*/
         }
         #endregion
     }

@@ -110,7 +110,7 @@ namespace Library.Controllers
         /// <returns>
         /// HTTP status code Ok() with updated book`s id
         /// or HTTP status code NotFound() if there is no books with specified id</returns>
-        [HttpPut("{bookId}")]
+        [HttpPut("bookId={bookId}&newBookName={newBookName}&newBookYear={newBookYear}")]
         public IActionResult UpdateBook(uint bookId, string newBookName, int newBookYear)
         {
             uint? updatedBookId = this.libraryService.UpdateBook(bookId,

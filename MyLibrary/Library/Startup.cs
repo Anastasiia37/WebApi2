@@ -28,7 +28,7 @@ namespace Library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ILibraryService, LibraryService>();
-            services.AddSingleton<IDataProvider, ListsDataProvider>();
+            services.AddSingleton<IDataProvider, InMemoryDataProvider>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

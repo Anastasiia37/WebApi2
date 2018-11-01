@@ -9,7 +9,7 @@ namespace BusinessLogic.LibraryModel
     /// <summary>
     /// Matches books and related genres
     /// </summary>
-    public class BookGenre
+    public class BookGenrePair
     {
         /// <summary>
         /// The value of last identifier
@@ -17,11 +17,11 @@ namespace BusinessLogic.LibraryModel
         private static uint lastId = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookGenre" /> class
+        /// Initializes a new instance of the <see cref="BookGenrePair" /> class
         /// </summary>
         /// <param name="bookId">The book identifier</param>
         /// <param name="genreId">The genre identifier</param>
-        public BookGenre(uint bookId, uint genreId)
+        public BookGenrePair(uint bookId, uint genreId)
         {
             this.BookId = bookId;
             this.GenreId = genreId;

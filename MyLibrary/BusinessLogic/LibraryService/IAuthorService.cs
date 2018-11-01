@@ -48,6 +48,6 @@ namespace BusinessLogic.LibraryService
         /// Number of book deletings with such author
         /// or null if there isn`t author with specified id
         /// </returns>
-        int? RemoveAuthor(uint authorId);
+        uint? RemoveAuthor(uint authorId);
     }
 }

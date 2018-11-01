@@ -10,7 +10,7 @@ namespace BusinessLogic.LibraryService
     /// <seealso cref="BusinessLogic.LibraryService.IGenreService" />
     /// <seealso cref="BusinessLogic.LibraryService.IAuthorService" />
     /// <seealso cref="BusinessLogic.LibraryService.IBookService" />
-    public interface ILibraryService : IAuthorService, IBookService, IGenreService
+    public interface ILibraryService : IAuthorService, IBookService, IGenreService, IBookAuthorPairService
     {
     }
 }

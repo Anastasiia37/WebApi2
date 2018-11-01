@@ -128,19 +128,19 @@ namespace Library.Controllers
         /// </summary>
         /// <param name="id">The identifier of the author</param>
         /// <returns>
-        /// HTTP status code Ok() with the number of deleted books
+        /// HTTP status code Ok() with the id of deleted books
         /// or HTTP status code NotFound() if there are any author in library with specified id
         /// </returns>
         [HttpDelete("{id}")]
         public IActionResult RemoveAuthor(uint id)
         {
-            int? numberOfDeletedBooks = this.libraryService.RemoveAuthor(id);
-            if (numberOfDeletedBooks == null)
+            uint? deletedAuthorId = this.libraryService.RemoveAuthor(id);
+            if (deletedAuthorId == null)
             {
                 return NotFound("No authors with such id!");
             }
 
-            return Ok($"{numberOfDeletedBooks} books were removed with author");
+            return Ok($"{deletedAuthorId} books were removed with author");
         }
     }
 }

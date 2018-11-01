@@ -11,7 +11,7 @@ namespace BusinessLogic.DataProvider
     /// Data Provider for Library Service that provides data in a list
     /// </summary>
     /// <seealso cref="BusinessLogic.DataProvider.IDataProvider" />
-    public class ListsDataProvider : IDataProvider
+    public class InMemoryDataProvider : IDataProvider
     {
         /// <summary>
         /// The books
@@ -31,18 +31,18 @@ namespace BusinessLogic.DataProvider
         /// <summary>
         /// The books with genres
         /// </summary>
-        private List<BookGenre> bookGenre;
+        private List<BookGenrePair> pairBookGenre;
 
         /// <summary>
         /// The books with authors
         /// </summary>
-        private List<BookAuthor> bookAuthor;
+        private List<BookAuthorPair> pairBookAuthor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListsDataProvider"/> class.
+        /// Initializes a new instance of the <see cref="InMemoryDataProvider"/> class.
         /// Fill books and authors by default values
         /// </summary>
-        public ListsDataProvider()
+        public InMemoryDataProvider()
         {
             this.books = new List<Book>()
             {
@@ -77,33 +77,33 @@ namespace BusinessLogic.DataProvider
                 new Genre("Повесть"),                    // id = 8
             };
 
-            this.bookGenre = new List<BookGenre>()
+            this.pairBookGenre = new List<BookGenrePair>()
             {
-                new BookGenre(1, 1),         // id = 1
-                new BookGenre(2, 6),         // id = 2
-                new BookGenre(2, 1),         // id = 3
-                new BookGenre(3, 5),         // id = 4
-                new BookGenre(4, 1),         // id = 5
-                new BookGenre(4, 6),         // id = 6
-                new BookGenre(5, 3),         // id = 7
-                new BookGenre(5, 2),         // id = 8
-                new BookGenre(7, 8),         // id = 9
-                new BookGenre(7, 2),         // id = 10
-                new BookGenre(7, 6),         // id = 11
-                new BookGenre(6, 7),         // id = 12
+                new BookGenrePair(1, 1),         // id = 1
+                new BookGenrePair(2, 6),         // id = 2
+                new BookGenrePair(2, 1),         // id = 3
+                new BookGenrePair(3, 5),         // id = 4
+                new BookGenrePair(4, 1),         // id = 5
+                new BookGenrePair(4, 6),         // id = 6
+                new BookGenrePair(5, 3),         // id = 7
+                new BookGenrePair(5, 2),         // id = 8
+                new BookGenrePair(7, 8),         // id = 9
+                new BookGenrePair(7, 2),         // id = 10
+                new BookGenrePair(7, 6),         // id = 11
+                new BookGenrePair(6, 7),         // id = 12
             };
 
-            this.bookAuthor = new List<BookAuthor>()
+            this.pairBookAuthor = new List<BookAuthorPair>()
             {
-                new BookAuthor(1, 2),         // id = 1
-                new BookAuthor(2, 1),         // id = 2
-                new BookAuthor(2, 4),         // id = 3
-                new BookAuthor(4, 3),         // id = 4
-                new BookAuthor(4, 2),         // id = 5
-                new BookAuthor(4, 6),         // id = 6
-                new BookAuthor(5, 3),         // id = 7
-                new BookAuthor(6, 4),         // id = 8
-                new BookAuthor(7, 4),         // id = 9
+                new BookAuthorPair(1, 2),         // id = 1
+                new BookAuthorPair(2, 1),         // id = 2
+                new BookAuthorPair(2, 4),         // id = 3
+                new BookAuthorPair(4, 3),         // id = 4
+                new BookAuthorPair(4, 2),         // id = 5
+                new BookAuthorPair(4, 6),         // id = 6
+                new BookAuthorPair(5, 3),         // id = 7
+                new BookAuthorPair(6, 4),         // id = 8
+                new BookAuthorPair(7, 4),         // id = 9
             };
         }
 
@@ -155,11 +155,11 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its genre
         /// </value>
-        public List<BookGenre> GetBookGenre
+        public List<BookGenrePair> GetPairBookGenre
         {
             get
             {
-                return this.bookGenre;
+                return this.pairBookGenre;
             }
         }
 
@@ -169,11 +169,11 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its author
         /// </value>
-        public List<BookAuthor> GetBookAuthor
+        public List<BookAuthorPair> GetPairBookAuthor
         {
             get
             {
-                return this.bookAuthor;
+                return this.pairBookAuthor;
             }
         }
     }
