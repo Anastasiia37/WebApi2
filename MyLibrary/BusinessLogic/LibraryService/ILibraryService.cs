@@ -2,15 +2,51 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace BusinessLogic.LibraryService
 {
     /// <summary>
-    /// Interface for services of all Library
+    /// Interface for services connected to Library
     /// </summary>
-    /// <seealso cref="BusinessLogic.LibraryService.IGenreService" />
-    /// <seealso cref="BusinessLogic.LibraryService.IAuthorService" />
-    /// <seealso cref="BusinessLogic.LibraryService.IBookService" />
-    public interface ILibraryService : IAuthorService, IBookService, IGenreService, IBookAuthorPairService
+    /// <typeparam name="T">Type from Library model: Book, Author or Genre</typeparam>
+    public interface ILibraryService<T>
     {
+        /// <summary>
+        /// Gets all T entities
+        /// </summary>
+        /// <returns>The list of T entities</returns>
+        IEnumerable<T> GetAll();
+
+        /// <summary>
+        /// Gets the T entity by identifier
+        /// </summary>
+        /// <param name="id">The identifier of T entity</param>
+        /// <returns>T entity with specified id</returns>
+        T GetById(uint id);
+
+        /// <summary>
+        /// Adds the T entity to the list of T entities
+        /// </summary>
+        /// <param name="item">The T entity</param>
+        /// <returns>The id of the added T entity</returns>
+        uint Add(T item);
+
+        /// <summary>
+        /// Updates the T entity
+        /// </summary>
+        /// <param name="id">The T entity identifier</param>
+        /// <param name="item">The new T entity</param>
+        /// <returns>The id of updated T entity or null if there isn`t T entity with specified id</returns>
+        uint? Update(uint id, T item);
+
+        /// <summary>
+        /// Removes the T entity
+        /// </summary>
+        /// <param name="id">The identifier of T entity</param>
+        /// <returns>
+        /// The id of removed T entity or null if there isn`t T entity with such id
+        /// </returns>
+        uint? Remove(uint id);
     }
 }

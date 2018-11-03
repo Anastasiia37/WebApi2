@@ -2,8 +2,8 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using BusinessLogic.LibraryModel;
+using System.Collections.Generic;
 
 namespace BusinessLogic.DataProvider
 {

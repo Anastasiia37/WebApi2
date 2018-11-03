@@ -2,10 +2,10 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using System;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Library.Controllers
 {
@@ -20,13 +20,13 @@ namespace Library.Controllers
         /// <summary>
         /// The library service
         /// </summary>
-        private ILibraryService libraryService;
+        private IAuthorService libraryService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorController"/> class
         /// </summary>
         /// <param name="libraryService">The library services</param>
-        public AuthorController(ILibraryService libraryService)
+        public AuthorController(IAuthorService libraryService)
         {
             this.libraryService = libraryService;
         }
@@ -42,9 +42,9 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult GetAllAuthors()
         {
-            if (this.libraryService.GetAllAuthors() != null)
+            if (this.libraryService.GetAll() != null)
             {
-                return Ok(this.libraryService.GetAllAuthors());
+                return Ok(this.libraryService.GetAll());
             }
 
             return NoContent();
@@ -62,7 +62,7 @@ namespace Library.Controllers
         [HttpGet("{id}")]
         public IActionResult GetAuthorById(uint id)
         {
-            Author foundAuthor = this.libraryService.GetAuthorById(id);
+            Author foundAuthor = this.libraryService.GetById(id);
             if (foundAuthor == null)
             {
                 return NotFound("No authors with such id!");
@@ -83,7 +83,6 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult AddNewAuthor([FromBody]Author author)
         {
-            ///???
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid author input");
@@ -91,7 +90,7 @@ namespace Library.Controllers
 
             try
             {
-                uint newAuthorId = this.libraryService.AddAuthor(author);
+                uint newAuthorId = this.libraryService.Add(author);
                 return Created("author", newAuthorId);
             }
             catch (ArgumentException exception)
@@ -113,7 +112,7 @@ namespace Library.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateAuthor(uint id, [FromBody]Author author)
         {
-            uint? updatedAuthorId = this.libraryService.UpdateAuthor(id, author);
+            uint? updatedAuthorId = this.libraryService.Update(id, author);
             if (updatedAuthorId == null)
             {
                 return NotFound("No authors with such id!");
@@ -134,7 +133,7 @@ namespace Library.Controllers
         [HttpDelete("{id}")]
         public IActionResult RemoveAuthor(uint id)
         {
-            uint? deletedAuthorId = this.libraryService.RemoveAuthor(id);
+            uint? deletedAuthorId = this.libraryService.Remove(id);
             if (deletedAuthorId == null)
             {
                 return NotFound("No authors with such id!");

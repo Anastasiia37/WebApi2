@@ -2,10 +2,10 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using System;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace MyWebLibrary.Controllers
 {
@@ -16,13 +16,13 @@ namespace MyWebLibrary.Controllers
         /// <summary>
         /// The library service
         /// </summary>
-        private ILibraryService libraryService;
+        private IGenreService libraryService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenreController"/> class
         /// </summary>
         /// <param name="libraryService">The library service</param>
-        public GenreController(ILibraryService libraryService)
+        public GenreController(IGenreService libraryService)
         {
             this.libraryService = libraryService;
         }
@@ -38,9 +38,9 @@ namespace MyWebLibrary.Controllers
         [HttpGet]
         public IActionResult GetAllGenres()
         {
-            if (this.libraryService.GetAllGenres() != null)
+            if (this.libraryService.GetAll() != null)
             {
-                return Ok(this.libraryService.GetAllGenres());
+                return Ok(this.libraryService.GetAll());
             }
 
             return NoContent();
@@ -58,7 +58,7 @@ namespace MyWebLibrary.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGenreById(uint id)
         {
-            Genre foundGenre = this.libraryService.GetGenreById(id);
+            Genre foundGenre = this.libraryService.GetById(id);
             if (foundGenre == null)
             {
                 return NotFound("No genres with such id!");
@@ -79,7 +79,6 @@ namespace MyWebLibrary.Controllers
         [HttpPost]
         public IActionResult AddNewGenre([FromBody]Genre genre)
         {
-            // ???
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid genre input");
@@ -87,7 +86,7 @@ namespace MyWebLibrary.Controllers
 
             try
             {
-                uint newGenreId = this.libraryService.AddGenre(genre);
+                uint newGenreId = this.libraryService.Add(genre);
                 return Created("genre", newGenreId);
             }
             catch (ArgumentException exception)
@@ -109,7 +108,7 @@ namespace MyWebLibrary.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateGenre(uint id, [FromBody]Genre genre)
         {
-            uint? updatedGenreId = this.libraryService.UpdateGenre(id, genre);
+            uint? updatedGenreId = this.libraryService.Update(id, genre);
             if (updatedGenreId == null)
             {
                 return NotFound("No genres with such id!");
@@ -133,7 +132,7 @@ namespace MyWebLibrary.Controllers
         {
             try
             {
-                uint? idOfDeletedGenre = this.libraryService.RemoveGenre(id);
+                uint? idOfDeletedGenre = this.libraryService.Remove(id);
                 if (idOfDeletedGenre == null)
                 {
                     return NotFound("No genres with such id!");

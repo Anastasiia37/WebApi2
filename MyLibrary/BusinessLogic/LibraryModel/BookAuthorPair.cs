@@ -59,7 +59,7 @@ namespace BusinessLogic.LibraryModel
         /// <value>
         /// The identifier of author
         /// </value>
-        [Required(ErrorMessage = "The identifier of gauthor must have id!")]
+        [Required(ErrorMessage = "The identifier of author must have id!")]
         [Range(1, uint.MaxValue)]
         public uint AuthorId
         {
