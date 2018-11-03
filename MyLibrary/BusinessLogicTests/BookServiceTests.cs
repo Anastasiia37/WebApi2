@@ -259,6 +259,8 @@ namespace BusinessLogicTests
         /// Incorrect input
         /// Expected exception
         /// </summary>
+        /// <param name="bookId">The book identifier</param>
+        /// <param name="authorId">The author identifier</param>
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         [DataRow(2, 1)]
@@ -355,6 +357,8 @@ namespace BusinessLogicTests
         /// Incorrect input for id
         /// Expected Exception
         /// </summary>
+        /// <param name="bookId">The book identifier</param>
+        /// <param name="authorId">The author identifier</param>
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         [DataRow(2, 1)] // Incorrect book id

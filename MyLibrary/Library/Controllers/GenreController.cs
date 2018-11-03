@@ -9,6 +9,10 @@ using System;
 
 namespace MyWebLibrary.Controllers
 {
+    /// <summary>
+    /// Controller for dealing with genres
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
     public class GenreController : ControllerBase

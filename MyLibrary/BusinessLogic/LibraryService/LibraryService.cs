@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace BusinessLogic.LibraryService
 {
+    /// <summary>
+    /// Class for library entities
+    /// </summary>
     public class LibraryService
     {
         /// <summary>
@@ -36,7 +39,7 @@ namespace BusinessLogic.LibraryService
         protected List<BookAuthorPair> pairsBookAuthor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookService"/> class
+        /// Initializes a new instance of the <see cref="LibraryService"/> class
         /// </summary>
         /// <param name="dataProvider">The data provider</param>
         public LibraryService(IDataProvider dataProvider)

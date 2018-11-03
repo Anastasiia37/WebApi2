@@ -1,4 +1,4 @@
-﻿// <copyright file="BookGenre.cs" company="Peretiatko Anastasiia">
+﻿// <copyright file="BookGenrePair.cs" company="Peretiatko Anastasiia">
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 

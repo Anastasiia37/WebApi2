@@ -17,6 +17,10 @@ namespace BusinessLogic.LibraryService
     /// <seealso cref="BusinessLogic.LibraryService.IBookService" />
     public class BookService : LibraryService, IBookService
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookService"/> class
+        /// </summary>
+        /// <param name="dataProvider">The data provider</param>
         public BookService(IDataProvider dataProvider) : base(dataProvider)
         {
         }
@@ -113,8 +117,8 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// Adds the author to book
         /// </summary>
-        /// <param name="authorId">The author identifier</param>
-        /// <param name="bookId">The book identifier</param>
+         /// <param name="bookId">The book identifier</param>
+       /// <param name="authorId">The author identifier</param>
         /// <returns>
         /// The id of new record in pairsBookAuthor
         /// </returns>
@@ -200,8 +204,8 @@ namespace BusinessLogic.LibraryService
             }
 
             var foundBooks = from entry in pairsBookAuthor
-                          where entry.AuthorId == authorId
-                          select GetById(entry.BookId);
+                             where entry.AuthorId == authorId
+                             select this.GetById(entry.BookId);
             return foundBooks;
         }
 
@@ -299,8 +303,8 @@ namespace BusinessLogic.LibraryService
             }
 
             var foundBooks = from entry in pairsBookGenre
-                          where entry.GenreId == genreId
-                          select GetById(entry.BookId);
+                             where entry.GenreId == genreId
+                             select this.GetById(entry.BookId);
             return foundBooks;
         }
 

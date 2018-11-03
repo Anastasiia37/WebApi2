@@ -1,4 +1,4 @@
-﻿// <copyright file="BookAuthor.cs" company="Peretiatko Anastasiia">
+﻿// <copyright file="BookAuthorPair.cs" company="Peretiatko Anastasiia">
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BusinessLogic.LibraryModel
 {
+    /// <summary>
+    /// Class for Book-Author pairs
+    /// </summary>
     public class BookAuthorPair
     {
         /// <summary>

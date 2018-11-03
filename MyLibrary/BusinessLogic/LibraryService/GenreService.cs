@@ -17,6 +17,10 @@ namespace BusinessLogic.LibraryService
     /// <seealso cref="BusinessLogic.LibraryService.IGenreService" />
     public class GenreService : LibraryService, IGenreService
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenreService"/> class
+        /// </summary>
+        /// <param name="dataProvider">The data provider</param>
         public GenreService(IDataProvider dataProvider) : base(dataProvider)
         {
         }
