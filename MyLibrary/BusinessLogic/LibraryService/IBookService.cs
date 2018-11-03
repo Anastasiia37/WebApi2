@@ -15,8 +15,8 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// Adds the author to book
         /// </summary>
-        /// <param name="authorId">The author identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="authorId">The author identifier</param>
         /// <returns>
         /// The id of new record in pairsBookAuthor
         /// </returns>
@@ -25,13 +25,13 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint AddAuthorToBook(uint authorId, uint bookId);
+        uint AddAuthorToBook(uint bookId, uint authorId);
 
         /// <summary>
         /// Removes the author from book
         /// </summary>
-        /// <param name="authorId">The author identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="authorId">The author identifier</param>
         /// <returns>
         /// The id of removed record in Book-Author pair
         /// or null if there are any pair of specified book and author
@@ -41,7 +41,7 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint? RemoveAuthorFromBook(uint authorId, uint bookId);
+        uint? RemoveAuthorFromBook(uint bookId, uint authorId);
 
         /// <summary>
         /// Get all books by specified author
@@ -58,8 +58,8 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// Adds the genre to book
         /// </summary>
-        /// <param name="genreId">The genre identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="genreId">The genre identifier</param>
         /// <returns>
         /// The id of new record in pairsBookGenre
         /// </returns>
@@ -68,13 +68,13 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint AddGenreToBook(uint genreId, uint bookId);
+        uint AddGenreToBook(uint bookId, uint genreId);
 
         /// <summary>
         /// Removes the genre from book
         /// </summary>
-        /// <param name="genreId">The genre identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="genreId">The genre identifier</param>
         /// <returns>
         /// The id of removed record in Book-Genre pair
         /// or null if there are any pair of specified book and genre
@@ -84,7 +84,7 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint? RemoveGenreFromBook(uint genreId, uint bookId);
+        uint? RemoveGenreFromBook(uint bookId, uint genreId);
 
         /// <summary>
         /// Get all books by specified genre

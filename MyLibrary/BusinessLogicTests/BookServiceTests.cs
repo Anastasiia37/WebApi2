@@ -359,7 +359,7 @@ namespace BusinessLogicTests
         [ExpectedException(typeof(ArgumentException))]
         [DataRow(2, 1)] // Incorrect book id
         [DataRow(1, 2)] // Incorrect author id
-        public void RemoveAuthorFromBook_IncorrectInput_ExpectedException(uint bookId = 1, uint authorId = 1)
+        public void RemoveAuthorFromBook_IncorrectInput_ExpectedException(uint bookId, uint authorId)
         {
             // Arrange
             Book book = new Book("Test Book", 1256);

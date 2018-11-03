@@ -139,7 +139,7 @@ namespace Library.Controllers
                 return NotFound("No authors with such id!");
             }
 
-            return Ok($"{deletedAuthorId} books were removed with author");
+            return Ok(deletedAuthorId);
         }
     }
 }

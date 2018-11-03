@@ -133,6 +133,11 @@ namespace BusinessLogic.LibraryService
                 throw new ArgumentException("Can`t find book with such id!");
             }
 
+            if (this.pairsBookAuthor.Any(somePair => somePair.BookId == bookId & somePair.AuthorId == authorId))
+            {
+                throw new ArgumentException("Such book has such author!");
+            }
+
             BookAuthorPair pairForAdding = new BookAuthorPair(bookId, authorId);
             this.pairsBookAuthor.Add(pairForAdding);
             return pairForAdding.Id;
@@ -141,8 +146,8 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// Removes the author from book
         /// </summary>
-        /// <param name="genreId">The author identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="authorId">The author identifier</param>
         /// <returns>
         /// The id of removed record in Book-Author pair
         /// or null if there are any pair of specified book and author
@@ -194,10 +199,10 @@ namespace BusinessLogic.LibraryService
                 throw new ArgumentException("Can`t find author with such id!");
             }
 
-            var booksId = from entry in pairsBookAuthor
+            var foundBooks = from entry in pairsBookAuthor
                           where entry.AuthorId == authorId
                           select GetById(entry.BookId);
-            return booksId;
+            return foundBooks;
         }
 
         #endregion BookAuthorPairService
@@ -207,8 +212,8 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// Adds the genre to book
         /// </summary>
-        /// <param name="genreId">The genre identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="genreId">The genre identifier</param>
         /// <returns>
         /// The id of new record in pairsBookGenre
         /// </returns>
@@ -227,6 +232,11 @@ namespace BusinessLogic.LibraryService
                 throw new ArgumentException("Can`t find book with such id!");
             }
 
+            if (this.pairsBookGenre.Any(somePair => somePair.BookId == bookId & somePair.GenreId == genreId))
+            {
+                throw new ArgumentException("Such book has such genre!!");
+            }
+
             BookGenrePair pairForAdding = new BookGenrePair(bookId, genreId);
             this.pairsBookGenre.Add(pairForAdding);
             return pairForAdding.Id;
@@ -235,8 +245,8 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// Removes the genre from book
         /// </summary>
-        /// <param name="genreId">The genre identifier</param>
         /// <param name="bookId">The book identifier</param>
+        /// <param name="genreId">The genre identifier</param>
         /// <returns>
         /// The id of removed record in Book-Genre pair
         /// or null if there are any pair of specified book and genre
@@ -288,10 +298,10 @@ namespace BusinessLogic.LibraryService
                 throw new ArgumentException("Can`t find genre with such id!");
             }
 
-            var booksId = from entry in pairsBookGenre
+            var foundBooks = from entry in pairsBookGenre
                           where entry.GenreId == genreId
                           select GetById(entry.BookId);
-            return booksId;
+            return foundBooks;
         }
 
         #endregion BookGenrePairService
