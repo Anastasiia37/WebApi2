@@ -7,14 +7,10 @@ using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using BusinessLogic.DataProvider;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library
 {
@@ -33,21 +29,11 @@ namespace Library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddSingleton<IAuthorService, AuthorService>();
-            services.AddSingleton<IBookService, BookService>();
-            services.AddSingleton<IGenreService, GenreService>();
-            services.AddSingleton<IDataProvider, InMemoryDataProvider>();
-            services.AddSingleton<LibraryContext, LibraryContext>();*/
-
-
             string con = "Server=(localdb)\\mssqllocaldb;Database=librarydb;Trusted_Connection=True;MultipleActiveResultSets=true";
             services.AddDbContext<IDataProvider, LibraryContext>(options => options.UseSqlServer(con));
-
-            //services.AddDbContext<ILibraryContext, LibraryContext>(options => options.UseSqlServer(connection));
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IAuthorService, AuthorService>();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
             {

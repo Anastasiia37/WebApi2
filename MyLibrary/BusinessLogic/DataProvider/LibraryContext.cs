@@ -1,81 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BusinessLogic.LibraryModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.DataProvider
 {
+    /// <summary>
+    /// Class for using daatabase
+    /// </summary>
+    /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
+    /// <seealso cref="BusinessLogic.DataProvider.IDataProvider" />
     public class LibraryContext : DbContext, IDataProvider
     {
-        public DbSet<BookAuthorPair> BookAuthorPairs
+        /// <summary>
+        /// Gets or sets the books.
+        /// </summary>
+        /// <value>
+        /// The books.
+        /// </value>
+        private DbSet<Book> books
         {
             get;
             set;
         }
 
-        public DbSet<BookGenrePair> BookGenrePairs
+        private DbSet<Author> authors
         {
             get;
             set;
         }
 
-        public DbSet<Book> Books
+        private DbSet<Genre> genres
         {
             get;
             set;
         }
 
-        public DbSet<Author> Authors
+        /// <summary>
+        /// Gets or sets the book -author pairs
+        /// </summary>
+        /// <value>
+        /// The book-author pairs
+        /// </value>
+        private DbSet<BookAuthorPair> bookAuthorPairs
         {
             get;
             set;
         }
 
-        public DbSet<Genre> Genres
+        private DbSet<BookGenrePair> bookGenrePairs
         {
             get;
             set;
         }
 
-        public List<Book> GetBooks
+        public List<Book> Books
         {
             get
             {
-                return Books.ToList();
+                return books.ToList();
             }
         }
 
-        public List<Genre> GetGenres
+        public List<Genre> Genres
         {
             get
             {
-                return Genres.ToList();
+                return genres.ToList();
             }
         }
 
-        public List<BookGenrePair> GetPairBookGenre
+        public List<BookGenrePair> PairsBookGenre
         {
             get
             {
-                return BookGenrePairs.ToList();
+                return bookGenrePairs.ToList();
             }
         }
 
-        public List<BookAuthorPair> GetPairBookAuthor
+        public List<BookAuthorPair> PairsBookAuthor
         {
             get
             {
-                return BookAuthorPairs.ToList();
+                return bookAuthorPairs.ToList();
             }
         }
 
-        public List<Author> GetAuthors
+        public List<Author> Authors
         {
             get
             {
-                return Authors.ToList();
+                return authors.ToList();
             }
         }
 
@@ -91,52 +106,52 @@ namespace BusinessLogic.DataProvider
 
         public void AddAuthor(Author author)
         {
-            Authors.Add(author);
+            authors.Add(author);
         }
 
         public void RemoveAuthor(Author author)
         {
-            Authors.Remove(author);
+            authors.Remove(author);
         }
 
         public void AddBook(Book book)
         {
-            Books.Add(book);
+            books.Add(book);
         }
 
         public void RemoveBook(Book book)
         {
-            Books.Remove(book);
+            books.Remove(book);
         }
 
         public void AddGenre(Genre genre)
         {
-            Genres.Add(genre);
+            genres.Add(genre);
         }
 
         public void RemoveGenre(Genre genre)
         {
-            Genres.Remove(genre);
+            genres.Remove(genre);
         }
 
         public void AddBookAuthorPair(BookAuthorPair pairBookAuthor)
         {
-            BookAuthorPairs.Add(pairBookAuthor);
+            bookAuthorPairs.Add(pairBookAuthor);
         }
 
         public void RemoveBookAuthorPair(BookAuthorPair pairBookAuthor)
         {
-            BookAuthorPairs.Remove(pairBookAuthor);
+            bookAuthorPairs.Remove(pairBookAuthor);
         }
 
         public void AddBookGenrePair(BookGenrePair pairBookGenre)
         {
-            BookGenrePairs.Add(pairBookGenre);
+            bookGenrePairs.Add(pairBookGenre);
         }
 
         public void RemoveBookGenrePair(BookGenrePair pairBookGenre)
         {
-            BookGenrePairs.Remove(pairBookGenre);
+            bookGenrePairs.Remove(pairBookGenre);
         }
     }
 }

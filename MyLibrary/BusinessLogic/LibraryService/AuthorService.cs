@@ -2,11 +2,11 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using BusinessLogic.DataProvider;
-using BusinessLogic.LibraryModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BusinessLogic.DataProvider;
+using BusinessLogic.LibraryModel;
 
 namespace BusinessLogic.LibraryService
 {
@@ -20,7 +20,7 @@ namespace BusinessLogic.LibraryService
         /// <summary>
         /// The data provider (database, inMemory, etc)
         /// </summary>
-        IDataProvider dataProvider;
+        private IDataProvider dataProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorService"/> class
@@ -39,7 +39,7 @@ namespace BusinessLogic.LibraryService
         /// <returns>The list of all authors</returns>
         public IEnumerable<Author> GetAll()
         {
-            return dataProvider.GetAuthors;
+            return dataProvider.Authors;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace BusinessLogic.LibraryService
         /// <returns>The author</returns>
         public Author GetById(int id)
         {
-            return dataProvider.GetAuthors.FirstOrDefault(author => author.Id == id);
+            return dataProvider.Authors.FirstOrDefault(author => author.Id == id);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">The author with such id already exists!</exception>
         public int Add(Author author)
         {
-            if (dataProvider.GetAuthors.Any(someAuthor => someAuthor.Id == author.Id))
+            if (dataProvider.Authors.Any(x => x.Id == author.Id))
             {
                 throw new ArgumentException("The author with such id already exists!");
             }
@@ -80,7 +80,7 @@ namespace BusinessLogic.LibraryService
         /// </returns>
         public int? Update(int authorId, Author author)
         {
-            Author authorForUpdate = dataProvider.GetAuthors.FirstOrDefault(someAuthor => someAuthor.Id == authorId);
+            Author authorForUpdate = dataProvider.Authors.FirstOrDefault(x => x.Id == authorId);
             if (authorForUpdate == null)
             {
                 return null;
@@ -101,10 +101,10 @@ namespace BusinessLogic.LibraryService
         /// </returns>
         public int? Remove(int authorId)
         {
-            Author authorForDelete = dataProvider.GetAuthors.FirstOrDefault(author => author.Id == authorId);
+            Author authorForDelete = dataProvider.Authors.FirstOrDefault(author => author.Id == authorId);
             if (authorForDelete != null)
             {
-                foreach (var pair in dataProvider.GetPairBookAuthor.Where(pair => pair.AuthorId == authorId))
+                foreach (var pair in dataProvider.PairsBookAuthor.Where(pair => pair.AuthorId == authorId))
                 {
                     dataProvider.RemoveBookAuthorPair(pair);
                     dataProvider.Save();

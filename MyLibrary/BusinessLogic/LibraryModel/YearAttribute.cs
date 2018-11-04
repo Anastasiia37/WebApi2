@@ -30,7 +30,7 @@ namespace BusinessLogic.LibraryModel
             if (value != null)
             {
                 int year = Convert.ToInt32(value);
-                if (year > MINIMUM_YEAR & year < DateTime.Now.Year)
+                if (year >= MINIMUM_YEAR && year <= DateTime.Now.Year)
                 {
                     return true;
                 }

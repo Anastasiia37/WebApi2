@@ -2,8 +2,8 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using BusinessLogic.LibraryModel;
 using System.Collections.Generic;
+using BusinessLogic.LibraryModel;
 
 namespace BusinessLogic.DataProvider
 {
@@ -39,43 +39,42 @@ namespace BusinessLogic.DataProvider
         private List<BookAuthorPair> pairBookAuthor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InMemoryDataProvider"/> class.
+        /// Initializes a new instance of the <see cref="InMemoryDataProvider"/> class
         /// Fill books and authors by default values
         /// </summary>
         public InMemoryDataProvider()
         {
-
-                this.books = new List<Book>()
+            this.books = new List<Book>()
             {
-                new Book("Я, робот", 1950),          // id = 1
-                new Book("Мир одного дня", 1985),    // id = 2, has two authors
-                new Book("Сказки", 2006),            // id = 3, has no author
-                new Book("Конец вечности", 1955),    // id = 4, has three authors
-                new Book("Красное и черное", 1850),  // id = 5
-                new Book("Вий", 1801),               // id = 6
-                new Book("Мертвые души", 1777),      // id = 7
+                new Book("Book 1", 1950),           // id = 1
+                new Book("Book 2", 1985),           // id = 2, has two authors
+                new Book("Book 3", 2006),           // id = 3, has no author
+                new Book("Book 4", 1955),           // id = 4, has three authors
+                new Book("Book 5", 1850),           // id = 5
+                new Book("Book 6", 1801),           // id = 6
+                new Book("Book 7", 1777),           // id = 7
             };
 
             this.authors = new List<Author>()
             {
-                new Author("Филип Фармер"),              // id = 1
-                new Author("Айзек Азимов"),              // id = 2
-                new Author("Стендаль"),                  // id = 3
-                new Author("Николай Васильевич Гоголь"), // id = 4
-                new Author("Роберт Шекли"),              // id = 5, no book with such author
-                new Author("Омар Хаям"),              // id = 5, no book with such author
+                new Author("Author 1"),              // id = 1
+                new Author("Author 2"),              // id = 2
+                new Author("Author 3"),              // id = 3
+                new Author("Author 4"),              // id = 4
+                new Author("Author 5"),              // id = 5, no book with such author
+                new Author("Author 6"),              // id = 5, no book with such author
             };
 
             this.genres = new List<Genre>()
             {
-                new Genre("Научная фантастика"),         // id = 1
-                new Genre("Классика"),                   // id = 2
-                new Genre("Роман"),                      // id = 3
-                new Genre("Фэнтези"),                    // id = 4, no book with such genre
-                new Genre("Фольклор"),                   // id = 5
-                new Genre("Приключения"),                // id = 6
-                new Genre("Ужасы"),                      // id = 7
-                new Genre("Повесть"),                    // id = 8
+                new Genre("Genre 1"),         // id = 1
+                new Genre("Genre 2"),         // id = 2
+                new Genre("Genre 3"),         // id = 3
+                new Genre("Genre 4"),         // id = 4, no book with such genre
+                new Genre("Genre 5"),         // id = 5
+                new Genre("Genre 6"),         // id = 6
+                new Genre("Genre 7"),         // id = 7
+                new Genre("Genre 8"),         // id = 8
             };
 
             this.pairBookGenre = new List<BookGenrePair>()
@@ -114,7 +113,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The books
         /// </value>
-        public List<Book> GetBooks
+        public List<Book> Books
         {
             get
             {
@@ -128,7 +127,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The authors
         /// </value>
-        public List<Author> GetAuthors
+        public List<Author> Authors
         {
             get
             {
@@ -142,7 +141,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The genres
         /// </value>
-        public List<Genre> GetGenres
+        public List<Genre> Genres
         {
             get
             {
@@ -156,7 +155,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its genre
         /// </value>
-        public List<BookGenrePair> GetPairBookGenre
+        public List<BookGenrePair> PairsBookGenre
         {
             get
             {
@@ -170,7 +169,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its author
         /// </value>
-        public List<BookAuthorPair> GetPairBookAuthor
+        public List<BookAuthorPair> PairsBookAuthor
         {
             get
             {
@@ -178,50 +177,99 @@ namespace BusinessLogic.DataProvider
             }
         }
 
-        public void AddAuthor()
-        {
-        }
-
+        /// <summary>
+        /// Adds the author
+        /// </summary>
+        /// <param name="author">The author</param>
         public void AddAuthor(Author author)
         {
+            authors.Add(author);
         }
 
+        /// <summary>
+        /// Adds the book
+        /// </summary>
+        /// <param name="book">The book</param>
         public void AddBook(Book book)
         {
+            books.Add(book);
         }
 
+        /// <summary>
+        /// Adds the pair book-author
+        /// </summary>
+        /// <param name="pairBookAuthor">The pair book-author</param>
         public void AddBookAuthorPair(BookAuthorPair pairBookAuthor)
         {
+            this.pairBookAuthor.Add(pairBookAuthor);
         }
 
+        /// <summary>
+        /// Adds the book-genre pair
+        /// </summary>
+        /// <param name="pairBookGenre">The pair book-genre</param>
         public void AddBookGenrePair(BookGenrePair pairBookGenre)
         {
+            this.pairBookGenre.Add(pairBookGenre);
         }
 
+        /// <summary>
+        /// Adds the genre
+        /// </summary>
+        /// <param name="genre">The genre</param>
         public void AddGenre(Genre genre)
         {
+            this.genres.Add(genre);
         }
 
+        /// <summary>
+        /// Removes the author
+        /// </summary>
+        /// <param name="author">The author</param>
         public void RemoveAuthor(Author author)
         {
+            this.authors.Remove(author);
         }
 
+        /// <summary>
+        /// Removes the book
+        /// </summary>
+        /// <param name="book">The book</param>
         public void RemoveBook(Book book)
         {
+            this.books.Remove(book);
         }
 
+        /// <summary>
+        /// Removes the book-author pair
+        /// </summary>
+        /// <param name="pairBookAuthor">The pair book-author</param>
         public void RemoveBookAuthorPair(BookAuthorPair pairBookAuthor)
         {
+            this.pairBookAuthor.Remove(pairBookAuthor);
         }
 
+        /// <summary>
+        /// Removes the book-genre pair
+        /// </summary>
+        /// <param name="pairBookGenre">The pair book-genre</param>
         public void RemoveBookGenrePair(BookGenrePair pairBookGenre)
         {
+            this.pairBookGenre.Remove(pairBookGenre);
         }
 
+        /// <summary>
+        /// Removes the genre
+        /// </summary>
+        /// <param name="genre">The genre</param>
         public void RemoveGenre(Genre genre)
         {
+            this.genres.Remove(genre);
         }
 
+        /// <summary>
+        /// Saves the changes in instance
+        /// </summary>
         public void Save()
         {
         }

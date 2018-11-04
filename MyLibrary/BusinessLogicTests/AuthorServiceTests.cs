@@ -2,13 +2,13 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using System.Linq;
 using BusinessLogic.DataProvider;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BusinessLogicTests
 {
@@ -26,13 +26,13 @@ namespace BusinessLogicTests
         /// <param name="id">The author identifier</param>
         /// <param name="name">The author name</param>
         [TestMethod]
-        [DataRow(1u, "TestAuthor")]
-        public void GetAuthorById_CorrectId_ReturnedCorrectAuthor(uint id, string name)
+        [DataRow(1, "TestAuthor")]
+        public void GetAuthorById_CorrectId_ReturnedCorrectAuthor(int id, string name)
         {
             // Arrange
             Author expectedAuthor = new Author(name);
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { expectedAuthor });
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { expectedAuthor });
             var libraryService = new AuthorService(mockDataProvider.Object);
 
             // Act
@@ -53,9 +53,9 @@ namespace BusinessLogicTests
             // Arrange
             Author author = new Author("TestAuthor");
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { author });
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { author });
             var libraryService = new AuthorService(mockDataProvider.Object);
-            uint id = 100;
+            int id = 100;
 
             // Act
             Author actualAuthor = libraryService.GetById(id);
@@ -72,12 +72,12 @@ namespace BusinessLogicTests
         /// <param name="id">The identifier of author</param>
         /// <param name="name">The name of author</param>
         [TestMethod]
-        [DataRow(1u, "TestAuthor")]
+        [DataRow(1, "TestAuthor")]
         public void RemoveAuthor_CorrectInput_ReturnedIdOfRemovedAuthorAndDeleteAllBookAuthorPairs
-            (uint id, string name)
+            (int id, string name)
         {
             // Arrange
-            uint? expectedId = id;
+            int? expectedId = id;
             Author author = new Author(name);
             List<BookAuthorPair> pairBookAuthor = new List<BookAuthorPair>()
             {
@@ -85,12 +85,12 @@ namespace BusinessLogicTests
                 new BookAuthorPair(2, 3)
             };
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { author });
-            mockDataProvider.SetupGet(p => p.GetPairBookAuthor).Returns(pairBookAuthor);
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { author });
+            mockDataProvider.SetupGet(p => p.PairsBookAuthor).Returns(pairBookAuthor);
             var libraryService = new AuthorService(mockDataProvider.Object);
 
             // Act
-            uint? actualId = libraryService.Remove(id);
+            int? actualId = libraryService.Remove(id);
             Author actualAuthor = libraryService.GetById(id);
 
             // Assert
@@ -107,14 +107,14 @@ namespace BusinessLogicTests
         public void RemoveAuthor_NotExistedAuthorId_ReturnedNull()
         {
             // Arrange
-            uint authorIdForDelete = 100;
+            int authorIdForDelete = 100;
             Author author = new Author("TestBook");
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { author });
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { author });
             var libraryService = new AuthorService(mockDataProvider.Object);
 
             // Act
-            uint? actualId = libraryService.Remove(authorIdForDelete);
+            int? actualId = libraryService.Remove(authorIdForDelete);
 
             // Assert
             Assert.IsNull(actualId);
@@ -134,15 +134,14 @@ namespace BusinessLogicTests
             Author authorForAdding = new Author(name);
             Author author = new Author("TestAuthor2");
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { author });
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { author });
             var libraryService = new AuthorService(mockDataProvider.Object);
             int countOfAuthorsBeforeAdding = libraryService.GetAll().ToList<Author>().Count;
 
             // Act
-            uint idOfAddedAuthor = libraryService.Add(authorForAdding);
+            int idOfAddedAuthor = libraryService.Add(authorForAdding);
             int countOfAuthorsAfterAdding = libraryService.GetAll().ToList<Author>().Count;
-            Author addedAuthor
-                = libraryService.GetAll().FirstOrDefault(someAuthor => someAuthor.Id == idOfAddedAuthor);
+            Author addedAuthor = libraryService.GetAll().FirstOrDefault(x => x.Id == idOfAddedAuthor);
 
             // Assert
             Assert.AreEqual(countOfAuthorsBeforeAdding + 1, countOfAuthorsAfterAdding);
@@ -157,21 +156,20 @@ namespace BusinessLogicTests
         /// <param name="authorIdForUpdating">The identifier of author for updating</param>
         /// <param name="name">The name of author</param>
         [TestMethod]
-        [DataRow(1u, "TestAuthor")]
-        public void UpdateAuthor_CorrectInput_ReturnedCorrectAuthor(uint authorIdForUpdating, string name)
+        [DataRow(1, "TestAuthor")]
+        public void UpdateAuthor_CorrectInput_ReturnedCorrectAuthor(int authorIdForUpdating, string name)
         {
             // Arrange
             Author author = new Author("TestAuthorUpdate");
             Author authorForUpdating = new Author(name);
             Author expectedAuthorAfterUpdating = new Author(name);
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { author });
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { author });
             var libraryService = new AuthorService(mockDataProvider.Object);
 
             // Act
-            uint? idOfUpdatedAuthor = libraryService.Update(authorIdForUpdating, authorForUpdating);
-            Author actualUpdatedAuthor
-                = libraryService.GetAll().FirstOrDefault(someAuthor => someAuthor.Id == idOfUpdatedAuthor);
+            int? idOfUpdatedAuthor = libraryService.Update(authorIdForUpdating, authorForUpdating);
+            Author actualUpdatedAuthor = libraryService.GetAll().FirstOrDefault(x => x.Id == idOfUpdatedAuthor);
 
             // Assert
             Assert.AreEqual(expectedAuthorAfterUpdating.FullName, actualUpdatedAuthor.FullName);
@@ -186,21 +184,20 @@ namespace BusinessLogicTests
         /// <param name="authorIdForUpdating">The identifier of author for updating</param>
         /// <param name="name">The name of author</param>
         [TestMethod]
-        [DataRow(100u, "TestAuthor")] // Incorrect author id
-        public void UpdateAuthor_IncorrectInput_ReturnedNull(uint authorIdForUpdating, string name)
+        [DataRow(100, "TestAuthor")] // Incorrect author id
+        public void UpdateAuthor_IncorrectInput_ReturnedNull(int authorIdForUpdating, string name)
         {
             // Arrange
             Author author = new Author("TestBAuthor2");
             var mockDataProvider = new Mock<IDataProvider>();
-            mockDataProvider.SetupGet(x => x.GetAuthors).Returns(new List<Author> { author });
+            mockDataProvider.SetupGet(x => x.Authors).Returns(new List<Author> { author });
             var libraryService = new AuthorService(mockDataProvider.Object);
             Author authorForUpdating = new Author(name);
             Author expectedAuthorAfterUpdating = new Author(name);
 
             // Act
-            uint? idOfUpdatedAuthor = libraryService.Update(authorIdForUpdating, authorForUpdating);
-            Author actualUpdatedAuthor
-                = libraryService.GetAll().FirstOrDefault(someAuthor => someAuthor.Id == idOfUpdatedAuthor);
+            int? idOfUpdatedAuthor = libraryService.Update(authorIdForUpdating, authorForUpdating);
+            Author actualUpdatedAuthor = libraryService.GetAll().FirstOrDefault(x => x.Id == idOfUpdatedAuthor);
 
             // Assert
             Assert.IsNull(idOfUpdatedAuthor);

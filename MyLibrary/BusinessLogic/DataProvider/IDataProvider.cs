@@ -2,8 +2,8 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using BusinessLogic.LibraryModel;
 using System.Collections.Generic;
+using BusinessLogic.LibraryModel;
 
 namespace BusinessLogic.DataProvider
 {
@@ -12,24 +12,64 @@ namespace BusinessLogic.DataProvider
     /// </summary>
     public interface IDataProvider
     {
+        /// <summary>
+        /// Adds the author
+        /// </summary>
+        /// <param name="author">The author</param>
         void AddAuthor(Author author);
 
+        /// <summary>
+        /// Removes the author
+        /// </summary>
+        /// <param name="author">The author</param>
         void RemoveAuthor(Author author);
 
+        /// <summary>
+        /// Adds the book
+        /// </summary>
+        /// <param name="book">The book</param>
         void AddBook(Book book);
 
+        /// <summary>
+        /// Removes the book
+        /// </summary>
+        /// <param name="book">The book</param>
         void RemoveBook(Book book);
 
+        /// <summary>
+        /// Adds the genre
+        /// </summary>
+        /// <param name="genre">The genre</param>
         void AddGenre(Genre genre);
 
+        /// <summary>
+        /// Removes the genre
+        /// </summary>
+        /// <param name="genre">The genre</param>
         void RemoveGenre(Genre genre);
 
+        /// <summary>
+        /// Adds the pair book-author
+        /// </summary>
+        /// <param name="pairBookAuthor">The pair book-author</param>
         void AddBookAuthorPair(BookAuthorPair pairBookAuthor);
 
+        /// <summary>
+        /// Removes the book-author pair
+        /// </summary>
+        /// <param name="pairBookAuthor">The pair book-author</param>
         void RemoveBookAuthorPair(BookAuthorPair pairBookAuthor);
 
+        /// <summary>
+        /// Adds the book-genre pair
+        /// </summary>
+        /// <param name="pairBookGenre">The pair book-genre</param>
         void AddBookGenrePair(BookGenrePair pairBookGenre);
 
+        /// <summary>
+        /// Removes the book-genre pair
+        /// </summary>
+        /// <param name="pairBookGenre">The pair book-genre</param>
         void RemoveBookGenrePair(BookGenrePair pairBookGenre);
 
         /// <summary>
@@ -38,7 +78,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The books
         /// </value>
-        List<Book> GetBooks
+        List<Book> Books
         {
             get;
         }
@@ -49,7 +89,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The authors
         /// </value>
-        List<Author> GetAuthors
+        List<Author> Authors
         {
             get;
         }
@@ -60,7 +100,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The genres
         /// </value>
-        List<Genre> GetGenres
+        List<Genre> Genres
         {
             get;
         }
@@ -71,7 +111,7 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its genre
         /// </value>
-        List<BookGenrePair> GetPairBookGenre
+        List<BookGenrePair> PairsBookGenre
         {
             get;
         }
@@ -82,11 +122,14 @@ namespace BusinessLogic.DataProvider
         /// <value>
         /// The pair of book and its author
         /// </value>
-        List<BookAuthorPair> GetPairBookAuthor
+        List<BookAuthorPair> PairsBookAuthor
         {
             get;
         }
 
+        /// <summary>
+        /// Saves the changes in instance
+        /// </summary>
         void Save();
     }
 }

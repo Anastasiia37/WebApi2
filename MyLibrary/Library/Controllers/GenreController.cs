@@ -2,10 +2,10 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
+using System;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace MyWebLibrary.Controllers
 {

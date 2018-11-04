@@ -2,13 +2,12 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
-using BusinessLogic.LibraryModel;
-using BusinessLogic.LibraryService;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BusinessLogic.DataProvider;
+using BusinessLogic.LibraryModel;
+using BusinessLogic.LibraryService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
@@ -54,7 +53,7 @@ namespace Library.Controllers
             }
 
             return NoContent();
-            }
+        }
 
         // GET: api/book/5
         /// <summary>
