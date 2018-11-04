@@ -15,14 +15,20 @@ namespace BusinessLogic.LibraryService
     /// </summary>
     /// <seealso cref="BusinessLogic.LibraryService.LibraryService" />
     /// <seealso cref="BusinessLogic.LibraryService.IAuthorService" />
-    public class AuthorService : LibraryService, IAuthorService
+    public class AuthorService : IAuthorService
     {
+        /// <summary>
+        /// The data provider (database, inMemory, etc)
+        /// </summary>
+        IDataProvider dataProvider;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorService"/> class
         /// </summary>
         /// <param name="dataProvider">The data provider</param>
-        public AuthorService(IDataProvider dataProvider) : base(dataProvider)
+        public AuthorService(IDataProvider dataProvider)
         {
+            this.dataProvider = dataProvider;
         }
 
         #region AuthorServices
@@ -33,7 +39,7 @@ namespace BusinessLogic.LibraryService
         /// <returns>The list of all authors</returns>
         public IEnumerable<Author> GetAll()
         {
-            return this.authors;
+            return dataProvider.GetAuthors;
         }
 
         /// <summary>
@@ -41,9 +47,9 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="id">The identifier of author</param>
         /// <returns>The author</returns>
-        public Author GetById(uint id)
+        public Author GetById(int id)
         {
-            return this.authors.FirstOrDefault(author => author.Id == id);
+            return dataProvider.GetAuthors.FirstOrDefault(author => author.Id == id);
         }
 
         /// <summary>
@@ -52,14 +58,15 @@ namespace BusinessLogic.LibraryService
         /// <param name="author">The new author</param>
         /// <returns>The id of added author</returns>
         /// <exception cref="ArgumentException">The author with such id already exists!</exception>
-        public uint Add(Author author)
+        public int Add(Author author)
         {
-            if (this.authors.Any(someAuthor => someAuthor.Id == author.Id))
+            if (dataProvider.GetAuthors.Any(someAuthor => someAuthor.Id == author.Id))
             {
                 throw new ArgumentException("The author with such id already exists!");
             }
 
-            this.authors.Add(author);
+            dataProvider.AddAuthor(author);
+            dataProvider.Save();
             return author.Id;
         }
 
@@ -71,15 +78,16 @@ namespace BusinessLogic.LibraryService
         /// <returns>
         /// The id of updated author or null if there isn`t author with specified id
         /// </returns>
-        public uint? Update(uint authorId, Author author)
+        public int? Update(int authorId, Author author)
         {
-            Author authorForUpdate = this.authors.FirstOrDefault(someAuthor => someAuthor.Id == authorId);
+            Author authorForUpdate = dataProvider.GetAuthors.FirstOrDefault(someAuthor => someAuthor.Id == authorId);
             if (authorForUpdate == null)
             {
                 return null;
             }
 
             authorForUpdate.FullName = author.FullName;
+            dataProvider.Save();
             return authorForUpdate.Id;
         }
 
@@ -91,13 +99,19 @@ namespace BusinessLogic.LibraryService
         /// Number of deleted books with such author
         /// or null if there isn`t author with specified id
         /// </returns>
-        public uint? Remove(uint authorId)
+        public int? Remove(int authorId)
         {
-            Author authorForDelete = this.authors.FirstOrDefault(author => author.Id == authorId);
+            Author authorForDelete = dataProvider.GetAuthors.FirstOrDefault(author => author.Id == authorId);
             if (authorForDelete != null)
             {
-                this.pairsBookAuthor.RemoveAll(pair => pair.AuthorId == authorId);
-                this.authors.Remove(authorForDelete);
+                foreach (var pair in dataProvider.GetPairBookAuthor.Where(pair => pair.AuthorId == authorId))
+                {
+                    dataProvider.RemoveBookAuthorPair(pair);
+                    dataProvider.Save();
+                }
+
+                dataProvider.RemoveAuthor(authorForDelete);
+                dataProvider.Save();
                 return authorId;
             }
 

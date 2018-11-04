@@ -12,18 +12,12 @@ namespace BusinessLogic.LibraryModel
     public class Genre
     {
         /// <summary>
-        /// The value of last identifier
-        /// </summary>
-        private static uint lastId = 0;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Genre" /> class
         /// </summary>
         /// <param name="name">The genre name</param>
         public Genre(string name)
         {
             this.Name = name;
-            this.Id = ++lastId;
         }
 
         /// <summary>
@@ -32,9 +26,7 @@ namespace BusinessLogic.LibraryModel
         /// <value>
         /// The identifier of genre
         /// </value>
-        [Required(ErrorMessage = "Genre must have id!")]
-        [Range(1, uint.MaxValue)]
-        public uint Id
+        public int Id
         {
             get;
             private set;

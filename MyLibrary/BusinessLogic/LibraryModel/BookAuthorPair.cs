@@ -12,20 +12,14 @@ namespace BusinessLogic.LibraryModel
     public class BookAuthorPair
     {
         /// <summary>
-        /// The value of last identifier
-        /// </summary>
-        private static uint lastId = 0;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BookAuthorPair" /> class
         /// </summary>
         /// <param name="bookId">The book identifier</param>
         /// <param name="authorId">The author identifier</param>
-        public BookAuthorPair(uint bookId, uint authorId)
+        public BookAuthorPair(int bookId, int authorId)
         {
             this.BookId = bookId;
             this.AuthorId = authorId;
-            this.Id = ++lastId;
         }
 
         /// <summary>
@@ -34,8 +28,6 @@ namespace BusinessLogic.LibraryModel
         /// <value>
         /// The identifier of book
         /// </value>
-        [Required(ErrorMessage = "The record of matching books and authors must have id!")]
-        [Range(1, int.MaxValue)]
         public int Id
         {
             get;
@@ -49,8 +41,8 @@ namespace BusinessLogic.LibraryModel
         /// The identifier of book
         /// </value>
         [Required(ErrorMessage = "The identifier of book must have id!")]
-        [Range(1, uint.MaxValue)]
-        public uint BookId
+        [Range(1, int.MaxValue)]
+        public int BookId
         {
             get;
             set;
@@ -63,8 +55,8 @@ namespace BusinessLogic.LibraryModel
         /// The identifier of author
         /// </value>
         [Required(ErrorMessage = "The identifier of author must have id!")]
-        [Range(1, uint.MaxValue)]
-        public uint AuthorId
+        [Range(1, int.MaxValue)]
+        public int AuthorId
         {
             get;
             set;

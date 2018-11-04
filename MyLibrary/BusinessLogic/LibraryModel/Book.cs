@@ -12,11 +12,6 @@ namespace BusinessLogic.LibraryModel
     public class Book
     {
         /// <summary>
-        /// The value of last identifier
-        /// </summary>
-        private static uint lastId = 0;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Book"/> class
         /// </summary>
         /// <param name="name">The name of the book</param>
@@ -25,7 +20,6 @@ namespace BusinessLogic.LibraryModel
         {
             this.Name = name;
             this.Year = year;
-            this.Id = ++lastId;
         }
 
         /// <summary>
@@ -34,8 +28,6 @@ namespace BusinessLogic.LibraryModel
         /// <value>
         /// The identifier of book
         /// </value>
-        [Required(ErrorMessage = "Book must have id!")]
-        [Range(1, int.MaxValue)]
         public int Id
         {
             get;

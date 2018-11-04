@@ -60,7 +60,7 @@ namespace MyWebLibrary.Controllers
         /// or HTTP status code NotFound() if there isn`t genre with such id
         /// </returns>
         [HttpGet("{id}")]
-        public IActionResult GetGenreById(uint id)
+        public IActionResult GetGenreById(int id)
         {
             Genre foundGenre = this.libraryService.GetById(id);
             if (foundGenre == null)
@@ -90,7 +90,7 @@ namespace MyWebLibrary.Controllers
 
             try
             {
-                uint newGenreId = this.libraryService.Add(genre);
+                int newGenreId = this.libraryService.Add(genre);
                 return Created("genre", newGenreId);
             }
             catch (ArgumentException exception)
@@ -110,9 +110,9 @@ namespace MyWebLibrary.Controllers
         /// or HTTP status code NotFound() if there is no genres with specified id
         /// </returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateGenre(uint id, [FromBody]Genre genre)
+        public IActionResult UpdateGenre(int id, [FromBody]Genre genre)
         {
-            uint? updatedGenreId = this.libraryService.Update(id, genre);
+            int? updatedGenreId = this.libraryService.Update(id, genre);
             if (updatedGenreId == null)
             {
                 return NotFound("No genres with such id!");
@@ -132,11 +132,11 @@ namespace MyWebLibrary.Controllers
         /// or HTTP status code BadRequest() if books with specified genre exist
         /// </returns>
         [HttpDelete("{id}")]
-        public IActionResult RemoveGenre(uint id)
+        public IActionResult RemoveGenre(int id)
         {
             try
             {
-                uint? idOfDeletedGenre = this.libraryService.Remove(id);
+                int? idOfDeletedGenre = this.libraryService.Remove(id);
                 if (idOfDeletedGenre == null)
                 {
                     return NotFound("No genres with such id!");

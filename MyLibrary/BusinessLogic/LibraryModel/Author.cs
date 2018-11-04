@@ -12,18 +12,12 @@ namespace BusinessLogic.LibraryModel
     public class Author
     {
         /// <summary>
-        /// The value of last identifier
-        /// </summary>
-        private static uint lastId = 0;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Author"/> class
         /// </summary>
         /// <param name="fullName">The full name of author</param>
         public Author(string fullName)
         {
             this.FullName = fullName;
-            this.Id = ++lastId;
         }
 
         /// <summary>
@@ -32,8 +26,6 @@ namespace BusinessLogic.LibraryModel
         /// <value>
         /// The identifier of author
         /// </value>
-        [Required]
-        [Range(1, int.MaxValue)]
         public int Id
         {
             get;

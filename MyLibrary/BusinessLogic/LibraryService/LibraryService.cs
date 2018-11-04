@@ -49,6 +49,7 @@ namespace BusinessLogic.LibraryService
             this.genres = dataProvider.GetGenres;
             this.pairsBookAuthor = dataProvider.GetPairBookAuthor;
             this.pairsBookGenre = dataProvider.GetPairBookGenre;
+            dataProvider.Save();
         }
     }
 }

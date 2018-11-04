@@ -23,14 +23,14 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="id">The identifier of T entity</param>
         /// <returns>T entity with specified id</returns>
-        T GetById(uint id);
+        T GetById(int id);
 
         /// <summary>
         /// Adds the T entity to the list of T entities
         /// </summary>
         /// <param name="item">The T entity</param>
         /// <returns>The id of the added T entity</returns>
-        uint Add(T item);
+        int Add(T item);
 
         /// <summary>
         /// Updates the T entity
@@ -38,7 +38,7 @@ namespace BusinessLogic.LibraryService
         /// <param name="id">The T entity identifier</param>
         /// <param name="item">The new T entity</param>
         /// <returns>The id of updated T entity or null if there isn`t T entity with specified id</returns>
-        uint? Update(uint id, T item);
+        int? Update(int id, T item);
 
         /// <summary>
         /// Removes the T entity
@@ -47,6 +47,6 @@ namespace BusinessLogic.LibraryService
         /// <returns>
         /// The id of removed T entity or null if there isn`t T entity with such id
         /// </returns>
-        uint? Remove(uint id);
+        int? Remove(int id);
     }
 }

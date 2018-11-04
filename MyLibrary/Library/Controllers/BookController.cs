@@ -66,7 +66,7 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there isn`t book with such id
         /// </returns>
         [HttpGet("{id}")]
-        public IActionResult GetBook(uint id)
+        public IActionResult GetBook(int id)
         {
             Book foundBook = this.libraryService.GetById(id);
             if (foundBook == null)
@@ -96,7 +96,7 @@ namespace Library.Controllers
 
             try
             {
-                uint newBookId = this.libraryService.Add(book);
+                int newBookId = this.libraryService.Add(book);
                 return Created("book", newBookId);
             }
             catch (ArgumentException exception)
@@ -116,9 +116,9 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there is no books with specified id
         /// </returns>
         [HttpPut("{bookId}")]
-        public IActionResult UpdateBook(uint bookId, [FromBody]Book book)
+        public IActionResult UpdateBook(int bookId, [FromBody]Book book)
         {
-            uint? updatedBookId = this.libraryService.Update(bookId, book);
+            int? updatedBookId = this.libraryService.Update(bookId, book);
             if (updatedBookId == null)
             {
                 return NotFound("No books with such id!");
@@ -137,9 +137,9 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there are any book in library with specified id
         /// </returns>
         [HttpDelete("{id}")]
-        public IActionResult DeleteBook(uint id)
+        public IActionResult DeleteBook(int id)
         {
-            uint? deletedBookId = this.libraryService.Remove(id);
+            int? deletedBookId = this.libraryService.Remove(id);
             if (deletedBookId == null)
             {
                 return NotFound("No books with such id!");
@@ -164,7 +164,7 @@ namespace Library.Controllers
         /// or HTTP status code BadRequest() if the author with such id doesn`t exist
         /// </returns>
         [HttpPost("bookId={bookId}&authorId={authorId}")]
-        public IActionResult AddAuthorToBook(uint bookId, uint authorId)
+        public IActionResult AddAuthorToBook(int bookId, int authorId)
         {
             if (!ModelState.IsValid)
             {
@@ -173,7 +173,7 @@ namespace Library.Controllers
 
             try
             {
-                uint newPairBookAuthorId = this.libraryService.AddAuthorToBook(bookId, authorId);
+                int newPairBookAuthorId = this.libraryService.AddAuthorToBook(bookId, authorId);
                 return Created("PairBookAuthor", newPairBookAuthorId);
             }
             catch (ArgumentException exception)
@@ -194,11 +194,11 @@ namespace Library.Controllers
         /// or HTTP status code BadRequest() if there is no author or book with specified ids
         /// </returns>
         [HttpDelete("bookId={bookId}&authorId={authorId}")]
-        public IActionResult RemoveAuthorFromBook(uint bookId, uint authorId)
+        public IActionResult RemoveAuthorFromBook(int bookId, int authorId)
         {
             try
             {
-                uint? removedPairBookAuthorId = this.libraryService.RemoveAuthorFromBook(bookId, authorId);
+                int? removedPairBookAuthorId = this.libraryService.RemoveAuthorFromBook(bookId, authorId);
                 if (removedPairBookAuthorId == null)
                 {
                     return NotFound("No specified author in specified book!");
@@ -222,7 +222,7 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there are no books with such author
         /// </returns>
         [HttpGet("authorId={authorId}")]
-        public IActionResult GetBooksByAuthor(uint authorId)
+        public IActionResult GetBooksByAuthor(int authorId)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace Library.Controllers
         /// or HTTP status code BadRequest() if the genre with such id doesn`t exist
         /// </returns>
         [HttpPost("bookId={bookId}&genreId={genreId}")]
-        public IActionResult AddGenreToBook(uint bookId, uint genreId)
+        public IActionResult AddGenreToBook(int bookId, int genreId)
         {
             if (!ModelState.IsValid)
             {
@@ -267,7 +267,7 @@ namespace Library.Controllers
 
             try
             {
-                uint newPairBookGenreId = this.libraryService.AddGenreToBook(bookId, genreId);
+                int newPairBookGenreId = this.libraryService.AddGenreToBook(bookId, genreId);
                 return Created("PairBookAuthor", newPairBookGenreId);
             }
             catch (ArgumentException exception)
@@ -288,11 +288,11 @@ namespace Library.Controllers
         /// or HTTP status code BadRequest() if there is no author or book with specified ids
         /// </returns>
         [HttpDelete("bookId={bookId}&genreId={genreId}")]
-        public IActionResult RemoveGenreFromBook(uint bookId, uint genreId)
+        public IActionResult RemoveGenreFromBook(int bookId, int genreId)
         {
             try
             {
-                uint? removedPairBookGenreId = this.libraryService.RemoveGenreFromBook(bookId, genreId);
+                int? removedPairBookGenreId = this.libraryService.RemoveGenreFromBook(bookId, genreId);
                 if (removedPairBookGenreId == null)
                 {
                     return NotFound("No specified genre in specified book!");
@@ -316,7 +316,7 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there are no books with such genre
         /// </returns>
         [HttpGet("genreId={genreId}")]
-        public IActionResult GetBooksByGenre(uint genreId)
+        public IActionResult GetBooksByGenre(int genreId)
         {
             try
             {

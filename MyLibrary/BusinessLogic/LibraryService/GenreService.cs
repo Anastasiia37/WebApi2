@@ -15,14 +15,20 @@ namespace BusinessLogic.LibraryService
     /// </summary>
     /// <seealso cref="BusinessLogic.LibraryService.LibraryService" />
     /// <seealso cref="BusinessLogic.LibraryService.IGenreService" />
-    public class GenreService : LibraryService, IGenreService
+    public class GenreService : IGenreService
     {
+        /// <summary>
+        /// The data provider (database, inMemory, etc)
+        /// </summary>
+        IDataProvider dataProvider;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GenreService"/> class
         /// </summary>
         /// <param name="dataProvider">The data provider</param>
-        public GenreService(IDataProvider dataProvider) : base(dataProvider)
+        public GenreService(IDataProvider dataProvider)
         {
+            this.dataProvider = dataProvider;
         }
 
         #region GenreServices
@@ -33,7 +39,7 @@ namespace BusinessLogic.LibraryService
         /// <returns>The list of genres in Library</returns>
         public IEnumerable<Genre> GetAll()
         {
-            return this.genres;
+            return dataProvider.GetGenres;
         }
 
         /// <summary>
@@ -41,9 +47,9 @@ namespace BusinessLogic.LibraryService
         /// </summary>
         /// <param name="id">The genre identifier</param>
         /// <returns>The found genre or null if there is no such genre in library</returns>
-        public Genre GetById(uint id)
+        public Genre GetById(int id)
         {
-            return this.genres.FirstOrDefault(genre => genre.Id == id);
+            return dataProvider.GetGenres.FirstOrDefault(genre => genre.Id == id);
         }
 
         /// <summary>
@@ -52,14 +58,15 @@ namespace BusinessLogic.LibraryService
         /// <param name="genre">The genre for adding</param>
         /// <returns>The id of added genre</returns>
         /// <exception cref="System.ArgumentException">The genre with such id already exists!</exception>
-        public uint Add(Genre genre)
+        public int Add(Genre genre)
         {
-            if (this.genres.Any(someGenre => someGenre.Id == genre.Id))
+            if (dataProvider.GetGenres.Any(someGenre => someGenre.Id == genre.Id))
             {
                 throw new ArgumentException("The genre with such id already exists!");
             }
 
-            this.genres.Add(genre);
+            dataProvider.AddGenre(genre);
+            dataProvider.Save();
             return genre.Id;
         }
 
@@ -69,15 +76,16 @@ namespace BusinessLogic.LibraryService
         /// <param name="genreId">The genre identifier</param>
         /// <param name="genre">The new genre</param>
         /// <returns>The id of updated genre or null if there is no genre with specified id</returns>
-        public uint? Update(uint genreId, Genre genre)
+        public int? Update(int genreId, Genre genre)
         {
-            Genre genreForUpdate = this.genres.FirstOrDefault(someGenre => someGenre.Id == genreId);
+            Genre genreForUpdate = dataProvider.GetGenres.FirstOrDefault(someGenre => someGenre.Id == genreId);
             if (genreForUpdate == null)
             {
                 return null;
             }
 
             genreForUpdate.Name = genre.Name;
+            dataProvider.Save();
             return genreForUpdate.Id;
         }
 
@@ -91,18 +99,18 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="System.ArgumentException">
         /// Can`t remove this genre because books with this genre exist!
         /// </exception>
-        public uint? Remove(uint id)
+        public int? Remove(int id)
         {
-            Genre genreForDelete = this.genres.FirstOrDefault(genre => genre.Id == id);
+            Genre genreForDelete = dataProvider.GetGenres.FirstOrDefault(genre => genre.Id == id);
             if (genreForDelete != null)
             {
-                if (this.pairsBookGenre.Any(someBookGenre => someBookGenre.GenreId == id))
+                if (dataProvider.GetPairBookGenre.Any(someBookGenre => someBookGenre.GenreId == id))
                 {
                     throw new ArgumentException("Can`t remove this genre because books with this genre exist!");
                 }
 
-                this.genres.Remove(genreForDelete);
-
+                dataProvider.RemoveGenre(genreForDelete);
+                dataProvider.Save();
                 return genreForDelete.Id;
             }
 

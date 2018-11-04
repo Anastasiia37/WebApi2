@@ -12,6 +12,26 @@ namespace BusinessLogic.DataProvider
     /// </summary>
     public interface IDataProvider
     {
+        void AddAuthor(Author author);
+
+        void RemoveAuthor(Author author);
+
+        void AddBook(Book book);
+
+        void RemoveBook(Book book);
+
+        void AddGenre(Genre genre);
+
+        void RemoveGenre(Genre genre);
+
+        void AddBookAuthorPair(BookAuthorPair pairBookAuthor);
+
+        void RemoveBookAuthorPair(BookAuthorPair pairBookAuthor);
+
+        void AddBookGenrePair(BookGenrePair pairBookGenre);
+
+        void RemoveBookGenrePair(BookGenrePair pairBookGenre);
+
         /// <summary>
         /// Gets the books
         /// </summary>
@@ -66,5 +86,7 @@ namespace BusinessLogic.DataProvider
         {
             get;
         }
+
+        void Save();
     }
 }

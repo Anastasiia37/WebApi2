@@ -25,7 +25,7 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint AddAuthorToBook(uint bookId, uint authorId);
+        int AddAuthorToBook(int bookId, int authorId);
 
         /// <summary>
         /// Removes the author from book
@@ -41,7 +41,7 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint? RemoveAuthorFromBook(uint bookId, uint authorId);
+        int? RemoveAuthorFromBook(int bookId, int authorId);
 
         /// <summary>
         /// Get all books by specified author
@@ -53,7 +53,7 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">
         /// Can`t find author with such id!
         /// </exception>
-        IEnumerable<Book> GetBooksByAuthor(uint authorId);
+        IEnumerable<Book> GetBooksByAuthor(int authorId);
 
         /// <summary>
         /// Adds the genre to book
@@ -68,7 +68,7 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint AddGenreToBook(uint bookId, uint genreId);
+        int AddGenreToBook(int bookId, int genreId);
 
         /// <summary>
         /// Removes the genre from book
@@ -84,7 +84,7 @@ namespace BusinessLogic.LibraryService
         /// or
         /// Can`t find book with such id!
         /// </exception>
-        uint? RemoveGenreFromBook(uint bookId, uint genreId);
+        int? RemoveGenreFromBook(int bookId, int genreId);
 
         /// <summary>
         /// Get all books by specified genre
@@ -96,6 +96,6 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">
         /// Can`t find genre with such id!
         /// </exception>
-        IEnumerable<Book> GetBooksByGenre(uint genreId);
+        IEnumerable<Book> GetBooksByGenre(int genreId);
     }
 }

@@ -60,7 +60,7 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there isn`t author with such id
         /// </returns>
         [HttpGet("{id}")]
-        public IActionResult GetAuthorById(uint id)
+        public IActionResult GetAuthorById(int id)
         {
             Author foundAuthor = this.libraryService.GetById(id);
             if (foundAuthor == null)
@@ -90,7 +90,7 @@ namespace Library.Controllers
 
             try
             {
-                uint newAuthorId = this.libraryService.Add(author);
+                int newAuthorId = this.libraryService.Add(author);
                 return Created("author", newAuthorId);
             }
             catch (ArgumentException exception)
@@ -110,9 +110,9 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there is no authors with specified id
         /// </returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateAuthor(uint id, [FromBody]Author author)
+        public IActionResult UpdateAuthor(int id, [FromBody]Author author)
         {
-            uint? updatedAuthorId = this.libraryService.Update(id, author);
+            int? updatedAuthorId = this.libraryService.Update(id, author);
             if (updatedAuthorId == null)
             {
                 return NotFound("No authors with such id!");
@@ -131,9 +131,9 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there are any author in library with specified id
         /// </returns>
         [HttpDelete("{id}")]
-        public IActionResult RemoveAuthor(uint id)
+        public IActionResult RemoveAuthor(int id)
         {
-            uint? deletedAuthorId = this.libraryService.Remove(id);
+            int? deletedAuthorId = this.libraryService.Remove(id);
             if (deletedAuthorId == null)
             {
                 return NotFound("No authors with such id!");
