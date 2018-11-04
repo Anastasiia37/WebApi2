@@ -33,8 +33,8 @@ namespace BusinessLogic.LibraryModel
         /// The identifier of author
         /// </value>
         [Required]
-        [Range(1, uint.MaxValue)]
-        public uint Id
+        [Range(1, int.MaxValue)]
+        public int Id
         {
             get;
             private set;

@@ -35,8 +35,8 @@ namespace BusinessLogic.LibraryModel
         /// The identifier of book
         /// </value>
         [Required(ErrorMessage = "The record of matching books and genres must have id!")]
-        [Range(1, uint.MaxValue)]
-        public uint Id
+        [Range(1, int.MaxValue)]
+        public int Id
         {
             get;
             private set;

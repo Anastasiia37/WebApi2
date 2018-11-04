@@ -203,9 +203,8 @@ namespace BusinessLogic.LibraryService
                 throw new ArgumentException("Can`t find author with such id!");
             }
 
-            var foundBooks = from entry in pairsBookAuthor
-                             where entry.AuthorId == authorId
-                             select this.GetById(entry.BookId);
+            var foundBooks = this.pairsBookAuthor.Where(entry => entry.AuthorId == authorId).
+                Select(entry => this.GetById(entry.BookId));
             return foundBooks;
         }
 
@@ -302,9 +301,8 @@ namespace BusinessLogic.LibraryService
                 throw new ArgumentException("Can`t find genre with such id!");
             }
 
-            var foundBooks = from entry in pairsBookGenre
-                             where entry.GenreId == genreId
-                             select this.GetById(entry.BookId);
+            var foundBooks = this.pairsBookGenre.Where(entry => entry.GenreId == genreId).
+                Select(entry => this.GetById(entry.BookId));
             return foundBooks;
         }
 

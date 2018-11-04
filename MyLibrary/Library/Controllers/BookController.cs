@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BusinessLogic.DataProvider;
 
 namespace Library.Controllers
 {
@@ -46,13 +47,14 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult GetAllBooks()
         {
-            if (this.libraryService.GetAll() != null)
+            int count = this.libraryService.GetAll().Count<Book>();
+            if (count != 0)
             {
                 return Ok(this.libraryService.GetAll());
             }
 
             return NoContent();
-        }
+            }
 
         // GET: api/book/5
         /// <summary>

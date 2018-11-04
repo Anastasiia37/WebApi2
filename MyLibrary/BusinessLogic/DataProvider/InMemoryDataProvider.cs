@@ -44,8 +44,9 @@ namespace BusinessLogic.DataProvider
         /// </summary>
         public InMemoryDataProvider()
         {
-            this.books = new List<Book>()
-            {
+            
+                this.books = new List<Book>()
+            /*{
                 new Book("Я, робот", 1950),          // id = 1
                 new Book("Мир одного дня", 1985),    // id = 2, has two authors
                 new Book("Сказки", 2006),            // id = 3, has no author
@@ -53,7 +54,7 @@ namespace BusinessLogic.DataProvider
                 new Book("Красное и черное", 1850),  // id = 5
                 new Book("Вий", 1801),               // id = 6
                 new Book("Мертвые души", 1777),      // id = 7
-            };
+            }*/;
 
             this.authors = new List<Author>()
             {
