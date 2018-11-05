@@ -39,9 +39,12 @@ namespace BusinessLogic.LibraryService
         /// <returns>
         /// The list of books
         /// </returns>
-        public IEnumerable<Book> GetAll()
+        public IEnumerable<Book> ListOfAll
         {
-            return dataProvider.Books;
+            get
+            {
+                return this.dataProvider.Books;
+            }
         }
 
         /// <summary>
@@ -52,7 +55,7 @@ namespace BusinessLogic.LibraryService
         /// Found book or null if there isn`t book with specified id</returns>
         public Book GetById(int id)
         {
-            return dataProvider.Books.FirstOrDefault(book => book.Id == id);
+            return this.dataProvider.Books.FirstOrDefault(book => book.Id == id);
         }
 
         /// <summary>
@@ -63,13 +66,13 @@ namespace BusinessLogic.LibraryService
         /// <exception cref="ArgumentException">The book with such id already exists!</exception>
         public int Add(Book book)
         {
-            if (dataProvider.Books.Any(x => x.Id == book.Id))
+            if (this.dataProvider.Books.Any(b => b.Id == book.Id))
             {
                 throw new ArgumentException("The book with such id already exists!");
             }
 
-            dataProvider.AddBook(book);
-            dataProvider.Save();
+            this.dataProvider.AddBook(book);
+            this.dataProvider.Save();
             return book.Id;
         }
 
@@ -83,7 +86,7 @@ namespace BusinessLogic.LibraryService
         /// </returns>
         public int? Update(int bookId, Book book)
         {
-            Book bookForUpdate = dataProvider.Books.FirstOrDefault(x => x.Id == bookId);
+            Book bookForUpdate = this.dataProvider.Books.FirstOrDefault(b => b.Id == bookId);
             if (bookForUpdate == null)
             {
                 return null;
@@ -91,7 +94,7 @@ namespace BusinessLogic.LibraryService
 
             bookForUpdate.Name = book.Name;
             bookForUpdate.Year = book.Year;
-            dataProvider.Save();
+            this.dataProvider.Save();
             return bookForUpdate.Id;
         }
 
@@ -105,27 +108,27 @@ namespace BusinessLogic.LibraryService
         /// </returns>
         public int? Remove(int id)
         {
-            Book bookForDelete = dataProvider.Books.FirstOrDefault(book => book.Id == id);
+            Book bookForDelete = this.dataProvider.Books.FirstOrDefault(book => book.Id == id);
             if (bookForDelete == null)
             {
                 return null;
             }
 
-            foreach (var pair in dataProvider.PairsBookAuthor.Where(pair => pair.BookId == id))
+            foreach (var pair in this.dataProvider.PairsBookAuthor.Where(pair => pair.BookId == id))
             {
-                dataProvider.RemoveBookAuthorPair(pair);
-                dataProvider.Save();
+                this.dataProvider.RemoveBookAuthorPair(pair);
+                this.dataProvider.Save();
             }
 
-            foreach (var pair in dataProvider.PairsBookGenre.Where(pair => pair.BookId == id))
+            foreach (var pair in this.dataProvider.PairsBookGenre.Where(pair => pair.BookId == id))
             {
-                dataProvider.RemoveBookGenrePair(pair);
-                dataProvider.Save();
+                this.dataProvider.RemoveBookGenrePair(pair);
+                this.dataProvider.Save();
             }
 
             int idOfDeletedBook = bookForDelete.Id;
-            dataProvider.RemoveBook(bookForDelete);
-            dataProvider.Save();
+            this.dataProvider.RemoveBook(bookForDelete);
+            this.dataProvider.Save();
             return idOfDeletedBook;
         }
 
@@ -146,24 +149,24 @@ namespace BusinessLogic.LibraryService
         /// Can`t find book with such id!</exception>
         public int AddAuthorToBook(int bookId, int authorId)
         {
-            if (!dataProvider.Authors.Any(a => a.Id == authorId))
+            if (!this.dataProvider.Authors.Any(a => a.Id == authorId))
             {
                 throw new ArgumentException("Can`t find author with such id!");
             }
 
-            if (!dataProvider.Books.Any(x => x.Id == bookId))
+            if (!this.dataProvider.Books.Any(b => b.Id == bookId))
             {
                 throw new ArgumentException("Can`t find book with such id!");
             }
 
-            if (dataProvider.PairsBookAuthor.Any(x => x.BookId == bookId && x.AuthorId == authorId))
+            if (this.dataProvider.PairsBookAuthor.Any(b => b.BookId == bookId && b.AuthorId == authorId))
             {
                 throw new ArgumentException("Such book has such author!");
             }
 
-            BookAuthorPair pairForAdding = new BookAuthorPair(bookId, authorId);
-            dataProvider.AddBookAuthorPair(pairForAdding);
-            dataProvider.Save();
+            BookAuthorPair pairForAdding = new BookAuthorPair { BookId = bookId, AuthorId = authorId };
+            this.dataProvider.AddBookAuthorPair(pairForAdding);
+            this.dataProvider.Save();
             return pairForAdding.Id;
         }
 
@@ -183,17 +186,17 @@ namespace BusinessLogic.LibraryService
         /// </exception>
         public int? RemoveAuthorFromBook(int bookId, int authorId)
         {
-            if (!dataProvider.Authors.Any(x => x.Id == authorId))
+            if (!this.dataProvider.Authors.Any(a => a.Id == authorId))
             {
                 throw new ArgumentException("Can`t find author with such id!");
             }
 
-            if (!dataProvider.Books.Any(x => x.Id == bookId))
+            if (!this.dataProvider.Books.Any(b => b.Id == bookId))
             {
                 throw new ArgumentException("Can`t find book with such id!");
             }
 
-            BookAuthorPair pairForRemoving = dataProvider.PairsBookAuthor.FirstOrDefault(
+            BookAuthorPair pairForRemoving = this.dataProvider.PairsBookAuthor.FirstOrDefault(
                 pairBookAuthor => pairBookAuthor.AuthorId == authorId
                 && pairBookAuthor.BookId == bookId);
             if (pairForRemoving == null)
@@ -202,15 +205,15 @@ namespace BusinessLogic.LibraryService
             }
 
             int removedPairId = pairForRemoving.Id;
-            dataProvider.RemoveBookAuthorPair(pairForRemoving);
-            dataProvider.Save();
+            this.dataProvider.RemoveBookAuthorPair(pairForRemoving);
+            this.dataProvider.Save();
             return removedPairId;
         }
 
         /// <summary>
         /// Get all books by specified author
         /// </summary>
-        /// <param name="genreId">The author identifier</param>
+        /// <param name="authorId">The author identifier</param>
         /// <returns>
         /// Enumeration of books
         /// </returns>
@@ -219,12 +222,12 @@ namespace BusinessLogic.LibraryService
         /// </exception>
         public IEnumerable<Book> GetBooksByAuthor(int authorId)
         {
-            if (!dataProvider.Authors.Any(x => x.Id == authorId))
+            if (!this.dataProvider.Authors.Any(a => a.Id == authorId))
             {
                 throw new ArgumentException("Can`t find author with such id!");
             }
 
-            var foundBooks = dataProvider.PairsBookAuthor.Where(entry => entry.AuthorId == authorId).
+            var foundBooks = this.dataProvider.PairsBookAuthor.Where(entry => entry.AuthorId == authorId).
                 Select(entry => this.GetById(entry.BookId));
             return foundBooks;
         }
@@ -246,24 +249,24 @@ namespace BusinessLogic.LibraryService
         /// Can`t find book with such id!</exception>
         public int AddGenreToBook(int bookId, int genreId)
         {
-            if (!dataProvider.Genres.Any(g => g.Id == genreId))
+            if (!this.dataProvider.Genres.Any(g => g.Id == genreId))
             {
                 throw new ArgumentException("Can`t find genre with such id!");
             }
 
-            if (!dataProvider.Books.Any(x => x.Id == bookId))
+            if (!this.dataProvider.Books.Any(b => b.Id == bookId))
             {
                 throw new ArgumentException("Can`t find book with such id!");
             }
 
-            if (dataProvider.PairsBookGenre.Any(x => x.BookId == bookId && x.GenreId == genreId))
+            if (this.dataProvider.PairsBookGenre.Any(p => p.BookId == bookId && p.GenreId == genreId))
             {
                 throw new ArgumentException("Such book has such genre!!");
             }
 
-            BookGenrePair pairForAdding = new BookGenrePair(bookId, genreId);
-            dataProvider.AddBookGenrePair(pairForAdding);
-            dataProvider.Save();
+            BookGenrePair pairForAdding = new BookGenrePair { BookId = bookId, GenreId = genreId };
+            this.dataProvider.AddBookGenrePair(pairForAdding);
+            this.dataProvider.Save();
             return pairForAdding.Id;
         }
 
@@ -283,17 +286,17 @@ namespace BusinessLogic.LibraryService
         /// </exception>
         public int? RemoveGenreFromBook(int bookId, int genreId)
         {
-            if (!dataProvider.Genres.Any(g => g.Id == genreId))
+            if (!this.dataProvider.Genres.Any(g => g.Id == genreId))
             {
                 throw new ArgumentException("Can`t find genre with such id!");
             }
 
-            if (!dataProvider.Books.Any(x => x.Id == bookId))
+            if (!this.dataProvider.Books.Any(b => b.Id == bookId))
             {
                 throw new ArgumentException("Can`t find book with such id!");
             }
 
-            BookGenrePair pairForRemoving = dataProvider.PairsBookGenre.FirstOrDefault(
+            BookGenrePair pairForRemoving = this.dataProvider.PairsBookGenre.FirstOrDefault(
                 pairBookGenre => pairBookGenre.GenreId == genreId
                 && pairBookGenre.BookId == bookId);
             if (pairForRemoving == null)
@@ -302,8 +305,8 @@ namespace BusinessLogic.LibraryService
             }
 
             int removedPairId = pairForRemoving.Id;
-            dataProvider.RemoveBookGenrePair(pairForRemoving);
-            dataProvider.Save();
+            this.dataProvider.RemoveBookGenrePair(pairForRemoving);
+            this.dataProvider.Save();
             return removedPairId;
         }
 
@@ -319,12 +322,12 @@ namespace BusinessLogic.LibraryService
         /// </exception>
         public IEnumerable<Book> GetBooksByGenre(int genreId)
         {
-            if (!dataProvider.Genres.Any(g => g.Id == genreId))
+            if (!this.dataProvider.Genres.Any(g => g.Id == genreId))
             {
                 throw new ArgumentException("Can`t find genre with such id!");
             }
 
-            var foundBooks = dataProvider.PairsBookGenre.Where(entry => entry.GenreId == genreId).
+            var foundBooks = this.dataProvider.PairsBookGenre.Where(entry => entry.GenreId == genreId).
                 Select(entry => this.GetById(entry.BookId));
             return foundBooks;
         }

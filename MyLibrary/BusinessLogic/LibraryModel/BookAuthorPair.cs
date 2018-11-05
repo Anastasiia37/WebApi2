@@ -12,17 +12,6 @@ namespace BusinessLogic.LibraryModel
     public class BookAuthorPair
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookAuthorPair" /> class
-        /// </summary>
-        /// <param name="bookId">The book identifier</param>
-        /// <param name="authorId">The author identifier</param>
-        public BookAuthorPair(int bookId, int authorId)
-        {
-            this.BookId = bookId;
-            this.AuthorId = authorId;
-        }
-
-        /// <summary>
         /// Gets or sets the identifier for record of matching books and authors
         /// </summary>
         /// <value>
@@ -31,7 +20,7 @@ namespace BusinessLogic.LibraryModel
         public int Id
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>

@@ -2,7 +2,9 @@
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
+using AutoMapper;
 using BusinessLogic.DataProvider;
+using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyWebLibrary.ViewModel;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Library
@@ -21,7 +24,7 @@ namespace Library
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -34,6 +37,12 @@ namespace Library
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IAuthorService, AuthorService>();
+            Mapper.Initialize(config =>
+                {
+                    config.CreateMap<BookFromUI, Book>();
+                    config.CreateMap<AuthorFromUI, Author>();
+                    config.CreateMap<GenreFromUI, Genre>();
+                });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
             {

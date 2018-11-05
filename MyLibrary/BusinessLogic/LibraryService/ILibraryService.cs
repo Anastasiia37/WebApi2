@@ -16,7 +16,10 @@ namespace BusinessLogic.LibraryService
         /// Gets all T entities
         /// </summary>
         /// <returns>The list of T entities</returns>
-        IEnumerable<T> GetAll();
+        IEnumerable<T> ListOfAll
+        {
+            get;
+        }
 
         /// <summary>
         /// Gets the T entity by identifier

@@ -3,9 +3,11 @@
 // </copyright>
 
 using System;
+using AutoMapper;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Mvc;
+using MyWebLibrary.ViewModel;
 
 namespace Library.Controllers
 {
@@ -42,9 +44,9 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult GetAllAuthors()
         {
-            if (this.libraryService.GetAll() != null)
+            if (this.libraryService.ListOfAll != null)
             {
-                return Ok(this.libraryService.GetAll());
+                return Ok(this.libraryService.ListOfAll);
             }
 
             return NoContent();
@@ -81,7 +83,7 @@ namespace Library.Controllers
         /// or HTTP status code BadRequest() with error message
         /// </returns>
         [HttpPost]
-        public IActionResult AddNewAuthor([FromBody]Author author)
+        public IActionResult AddNewAuthor([FromBody]AuthorFromUI author)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +92,7 @@ namespace Library.Controllers
 
             try
             {
-                int newAuthorId = this.libraryService.Add(author);
+                int newAuthorId = this.libraryService.Add(Mapper.Map<Author>(author));
                 return Created("author", newAuthorId);
             }
             catch (ArgumentException exception)
@@ -110,9 +112,9 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there is no authors with specified id
         /// </returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateAuthor(int id, [FromBody]Author author)
+        public IActionResult UpdateAuthor(int id, [FromBody]AuthorFromUI author)
         {
-            int? updatedAuthorId = this.libraryService.Update(id, author);
+            int? updatedAuthorId = this.libraryService.Update(id, Mapper.Map<Author>(author));
             if (updatedAuthorId == null)
             {
                 return NotFound("No authors with such id!");

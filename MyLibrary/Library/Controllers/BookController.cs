@@ -5,9 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Mvc;
+using MyWebLibrary.ViewModel;
 
 namespace Library.Controllers
 {
@@ -46,10 +48,10 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult GetAllBooks()
         {
-            int count = this.libraryService.GetAll().Count<Book>();
+            int count = this.libraryService.ListOfAll.Count<Book>();
             if (count != 0)
             {
-                return Ok(this.libraryService.GetAll());
+                return Ok(this.libraryService.ListOfAll);
             }
 
             return NoContent();
@@ -86,7 +88,7 @@ namespace Library.Controllers
         /// or HTTP status code BadRequest() if the book with such id already exists
         /// </returns>
         [HttpPost]
-        public IActionResult AddNewBook([FromBody]Book book)
+        public IActionResult AddNewBook([FromBody]BookFromUI book)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +97,7 @@ namespace Library.Controllers
 
             try
             {
-                int newBookId = this.libraryService.Add(book);
+                int newBookId = this.libraryService.Add(Mapper.Map<Book>(book));
                 return Created("book", newBookId);
             }
             catch (ArgumentException exception)
@@ -115,9 +117,9 @@ namespace Library.Controllers
         /// or HTTP status code NotFound() if there is no books with specified id
         /// </returns>
         [HttpPut("{bookId}")]
-        public IActionResult UpdateBook(int bookId, [FromBody]Book book)
+        public IActionResult UpdateBook(int bookId, [FromBody]BookFromUI book)
         {
-            int? updatedBookId = this.libraryService.Update(bookId, book);
+            int? updatedBookId = this.libraryService.Update(bookId, Mapper.Map<Book>(book));
             if (updatedBookId == null)
             {
                 return NotFound("No books with such id!");

@@ -3,9 +3,11 @@
 // </copyright>
 
 using System;
+using AutoMapper;
 using BusinessLogic.LibraryModel;
 using BusinessLogic.LibraryService;
 using Microsoft.AspNetCore.Mvc;
+using MyWebLibrary.ViewModel;
 
 namespace MyWebLibrary.Controllers
 {
@@ -42,9 +44,9 @@ namespace MyWebLibrary.Controllers
         [HttpGet]
         public IActionResult GetAllGenres()
         {
-            if (this.libraryService.GetAll() != null)
+            if (this.libraryService.ListOfAll != null)
             {
-                return Ok(this.libraryService.GetAll());
+                return Ok(this.libraryService.ListOfAll);
             }
 
             return NoContent();
@@ -81,7 +83,7 @@ namespace MyWebLibrary.Controllers
         /// or HTTP status code BadRequest() if the genre with such id already exists
         /// </returns>
         [HttpPost]
-        public IActionResult AddNewGenre([FromBody]Genre genre)
+        public IActionResult AddNewGenre([FromBody]GenreFromUI genre)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +92,7 @@ namespace MyWebLibrary.Controllers
 
             try
             {
-                int newGenreId = this.libraryService.Add(genre);
+                int newGenreId = this.libraryService.Add(Mapper.Map<Genre>(genre));
                 return Created("genre", newGenreId);
             }
             catch (ArgumentException exception)
@@ -110,9 +112,9 @@ namespace MyWebLibrary.Controllers
         /// or HTTP status code NotFound() if there is no genres with specified id
         /// </returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateGenre(int id, [FromBody]Genre genre)
+        public IActionResult UpdateGenre(int id, [FromBody]GenreFromUI genre)
         {
-            int? updatedGenreId = this.libraryService.Update(id, genre);
+            int? updatedGenreId = this.libraryService.Update(id, Mapper.Map<Genre>(genre));
             if (updatedGenreId == null)
             {
                 return NotFound("No genres with such id!");

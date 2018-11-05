@@ -12,17 +12,6 @@ namespace BusinessLogic.LibraryModel
     public class BookGenrePair
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookGenrePair" /> class
-        /// </summary>
-        /// <param name="bookId">The book identifier</param>
-        /// <param name="genreId">The genre identifier</param>
-        public BookGenrePair(int bookId, int genreId)
-        {
-            this.BookId = bookId;
-            this.GenreId = genreId;
-        }
-
-        /// <summary>
         /// Gets or sets the identifier for record of matching books and genres
         /// </summary>
         /// <value>
@@ -31,7 +20,7 @@ namespace BusinessLogic.LibraryModel
         public int Id
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>

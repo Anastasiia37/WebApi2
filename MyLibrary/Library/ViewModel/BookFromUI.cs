@@ -1,28 +1,17 @@
-﻿// <copyright file="Book.cs" company="Peretiatko Anastasiia">
+﻿// <copyright file="BookFromUI.cs" company="Peretiatko Anastasiia">
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
 using System.ComponentModel.DataAnnotations;
+using BusinessLogic.LibraryModel;
 
-namespace BusinessLogic.LibraryModel
+namespace MyWebLibrary.ViewModel
 {
     /// <summary>
-    /// The class for book
+    /// Class for getting Book data from UI
     /// </summary>
-    public class Book
+    public class BookFromUI
     {
-        /// <summary>
-        /// Gets or sets the identifier for book
-        /// </summary>
-        /// <value>
-        /// The identifier of book
-        /// </value>
-        public int Id
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// Gets or sets the name of book
         /// </summary>

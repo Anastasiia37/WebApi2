@@ -1,28 +1,16 @@
-﻿// <copyright file="Genre.cs" company="Peretiatko Anastasiia">
+﻿// <copyright file="GenreFromUI.cs" company="Peretiatko Anastasiia">
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
 using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.LibraryModel
+namespace MyWebLibrary.ViewModel
 {
     /// <summary>
-    /// Defines different genres of books
+    /// Class for getting Genre data from UI
     /// </summary>
-    public class Genre
+    public class GenreFromUI
     {
-        /// <summary>
-        /// Gets or sets the identifier for genre
-        /// </summary>
-        /// <value>
-        /// The identifier of genre
-        /// </value>
-        public int Id
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// Gets or sets the name of genre
         /// </summary>

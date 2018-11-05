@@ -13,6 +13,61 @@ namespace BusinessLogic.DataProvider
     public interface IDataProvider
     {
         /// <summary>
+        /// Gets the books
+        /// </summary>
+        /// <value>
+        /// The books
+        /// </value>
+        List<Book> Books
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the authors
+        /// </summary>
+        /// <value>
+        /// The authors
+        /// </value>
+        List<Author> Authors
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the genres
+        /// </summary>
+        /// <value>
+        /// The genres
+        /// </value>
+        List<Genre> Genres
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the pair of book and its genre
+        /// </summary>
+        /// <value>
+        /// The pair of book and its genre
+        /// </value>
+        List<BookGenrePair> PairsBookGenre
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the pair of book and its author
+        /// </summary>
+        /// <value>
+        /// The pair of book and its author
+        /// </value>
+        List<BookAuthorPair> PairsBookAuthor
+        {
+            get;
+        }
+
+        /// <summary>
         /// Adds the author
         /// </summary>
         /// <param name="author">The author</param>
@@ -71,61 +126,6 @@ namespace BusinessLogic.DataProvider
         /// </summary>
         /// <param name="pairBookGenre">The pair book-genre</param>
         void RemoveBookGenrePair(BookGenrePair pairBookGenre);
-
-        /// <summary>
-        /// Gets the books
-        /// </summary>
-        /// <value>
-        /// The books
-        /// </value>
-        List<Book> Books
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the authors
-        /// </summary>
-        /// <value>
-        /// The authors
-        /// </value>
-        List<Author> Authors
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the genres
-        /// </summary>
-        /// <value>
-        /// The genres
-        /// </value>
-        List<Genre> Genres
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the pair of book and its genre
-        /// </summary>
-        /// <value>
-        /// The pair of book and its genre
-        /// </value>
-        List<BookGenrePair> PairsBookGenre
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the pair of book and its author
-        /// </summary>
-        /// <value>
-        /// The pair of book and its author
-        /// </value>
-        List<BookAuthorPair> PairsBookAuthor
-        {
-            get;
-        }
 
         /// <summary>
         /// Saves the changes in instance

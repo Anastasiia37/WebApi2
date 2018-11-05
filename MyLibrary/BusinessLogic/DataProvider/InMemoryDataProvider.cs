@@ -1,4 +1,4 @@
-﻿// <copyright file="ListsDataProvider.cs" company="Peretiatko Anastasiia">
+﻿// <copyright file="InMemoryDataProvider.cs" company="Peretiatko Anastasiia">
 // Copyright (c) Peretiatko Anastasiia. All rights reserved.
 // </copyright>
 
@@ -46,64 +46,64 @@ namespace BusinessLogic.DataProvider
         {
             this.books = new List<Book>()
             {
-                new Book("Book 1", 1950),           // id = 1
-                new Book("Book 2", 1985),           // id = 2, has two authors
-                new Book("Book 3", 2006),           // id = 3, has no author
-                new Book("Book 4", 1955),           // id = 4, has three authors
-                new Book("Book 5", 1850),           // id = 5
-                new Book("Book 6", 1801),           // id = 6
-                new Book("Book 7", 1777),           // id = 7
+                new Book { Id = 1, Name = "Book 1", Year = 1950 },
+                new Book { Id = 2, Name = "Book 2", Year = 1985 },
+                new Book { Id = 3, Name = "Book 3", Year = 2006 },
+                new Book { Id = 4, Name = "Book 4", Year = 1955 },
+                new Book { Id = 5, Name = "Book 5", Year = 1850 },
+                new Book { Id = 6, Name = "Book 6", Year = 1801 },
+                new Book { Id = 7, Name = "Book 7", Year = 1777 }
             };
 
             this.authors = new List<Author>()
             {
-                new Author("Author 1"),              // id = 1
-                new Author("Author 2"),              // id = 2
-                new Author("Author 3"),              // id = 3
-                new Author("Author 4"),              // id = 4
-                new Author("Author 5"),              // id = 5, no book with such author
-                new Author("Author 6"),              // id = 5, no book with such author
+                new Author { Id = 1, FullName = "Author 1" },
+                new Author { Id = 2, FullName = "Author 2" },
+                new Author { Id = 3, FullName = "Author 3" },
+                new Author { Id = 4, FullName = "Author 4" },
+                new Author { Id = 5, FullName = "Author 5" },  // No book with such author
+                new Author { Id = 6, FullName = "Author 6" },  // No book with such author
             };
 
             this.genres = new List<Genre>()
             {
-                new Genre("Genre 1"),         // id = 1
-                new Genre("Genre 2"),         // id = 2
-                new Genre("Genre 3"),         // id = 3
-                new Genre("Genre 4"),         // id = 4, no book with such genre
-                new Genre("Genre 5"),         // id = 5
-                new Genre("Genre 6"),         // id = 6
-                new Genre("Genre 7"),         // id = 7
-                new Genre("Genre 8"),         // id = 8
+                new Genre { Id = 1, Name = "Genre 1" },
+                new Genre { Id = 2, Name = "Genre 2" },
+                new Genre { Id = 3, Name = "Genre 3" },
+                new Genre { Id = 4, Name = "Genre 4" },  // No book with such genre
+                new Genre { Id = 5, Name = "Genre 5" },
+                new Genre { Id = 6, Name = "Genre 6" },
+                new Genre { Id = 7, Name = "Genre 7" },
+                new Genre { Id = 8, Name = "Genre 8" }
             };
 
             this.pairBookGenre = new List<BookGenrePair>()
             {
-                new BookGenrePair(1, 1),         // id = 1
-                new BookGenrePair(2, 6),         // id = 2
-                new BookGenrePair(2, 1),         // id = 3
-                new BookGenrePair(3, 5),         // id = 4
-                new BookGenrePair(4, 1),         // id = 5
-                new BookGenrePair(4, 6),         // id = 6
-                new BookGenrePair(5, 3),         // id = 7
-                new BookGenrePair(5, 2),         // id = 8
-                new BookGenrePair(7, 8),         // id = 9
-                new BookGenrePair(7, 2),         // id = 10
-                new BookGenrePair(7, 6),         // id = 11
-                new BookGenrePair(6, 7),         // id = 12
+                new BookGenrePair { Id = 1, BookId = 1, GenreId = 1 },
+                new BookGenrePair { Id = 1, BookId = 2, GenreId = 6 },
+                new BookGenrePair { Id = 1, BookId = 2, GenreId = 1 },
+                new BookGenrePair { Id = 1, BookId = 3, GenreId = 5 },
+                new BookGenrePair { Id = 1, BookId = 4, GenreId = 1 },
+                new BookGenrePair { Id = 1, BookId = 4, GenreId = 6 },
+                new BookGenrePair { Id = 1, BookId = 5, GenreId = 3 },
+                new BookGenrePair { Id = 1, BookId = 5, GenreId = 2 },
+                new BookGenrePair { Id = 1, BookId = 7, GenreId = 8 },
+                new BookGenrePair { Id = 1, BookId = 7, GenreId = 2 },
+                new BookGenrePair { Id = 1, BookId = 7, GenreId = 6 },
+                new BookGenrePair { Id = 1, BookId = 6, GenreId = 7 },
             };
 
             this.pairBookAuthor = new List<BookAuthorPair>()
             {
-                new BookAuthorPair(1, 2),         // id = 1
-                new BookAuthorPair(2, 1),         // id = 2
-                new BookAuthorPair(2, 4),         // id = 3
-                new BookAuthorPair(4, 3),         // id = 4
-                new BookAuthorPair(4, 2),         // id = 5
-                new BookAuthorPair(4, 6),         // id = 6
-                new BookAuthorPair(5, 3),         // id = 7
-                new BookAuthorPair(6, 4),         // id = 8
-                new BookAuthorPair(7, 4),         // id = 9
+                new BookAuthorPair { Id = 1, BookId = 1, AuthorId = 2 },
+                new BookAuthorPair { Id = 1, BookId = 2, AuthorId = 1 },
+                new BookAuthorPair { Id = 1, BookId = 2, AuthorId = 4 },
+                new BookAuthorPair { Id = 1, BookId = 4, AuthorId = 3 },
+                new BookAuthorPair { Id = 1, BookId = 4, AuthorId = 2 },
+                new BookAuthorPair { Id = 1, BookId = 4, AuthorId = 6 },
+                new BookAuthorPair { Id = 1, BookId = 5, AuthorId = 3 },
+                new BookAuthorPair { Id = 1, BookId = 6, AuthorId = 4 },
+                new BookAuthorPair { Id = 1, BookId = 7, AuthorId = 4 },
             };
         }
 
@@ -183,7 +183,7 @@ namespace BusinessLogic.DataProvider
         /// <param name="author">The author</param>
         public void AddAuthor(Author author)
         {
-            authors.Add(author);
+            this.authors.Add(author);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace BusinessLogic.DataProvider
         /// <param name="book">The book</param>
         public void AddBook(Book book)
         {
-            books.Add(book);
+            this.books.Add(book);
         }
 
         /// <summary>
